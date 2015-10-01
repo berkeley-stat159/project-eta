@@ -1,29 +1,44 @@
 \documentclass[11pt]{article}
 \bibliographystyle{siam}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
 
-\title{The title of your project proposal}
+\title{The Neural Basis of Loss Aversion in Decision-Making Under Risk}
 \author{
-  LastName1, FirstName1\\
-  \texttt{github1}
+  Jara, Jon\\
+  \texttt{jonmigueljara}
   \and
-  LastName2, FirstName2\\
-  \texttt{github2}
+  Sanderson, Will\\
+  \texttt{wtsanderson}
   \and
-  LastName3, FirstName3\\
-  \texttt{github3}
+  Shishido, Juan\\
+  \texttt{juanshishido}
   \and
-  LastName4, FirstName4\\
-  \texttt{github4}
+  Wu, Paul\\
+  \texttt{yuanyiwu}
+  \and
+  Xu, Wendy\\
+  \texttt{berithsu}
 }
 
 \begin{document}
 \maketitle
 
-Identify a published fMRI paper and the accompanying data
-\cite{lindquist2008statistical}.  You should explain the basic idea of the
-paper in a paragraph.  You should also perform basic sanity check on the data
-(e.g., can you downloaded, can you load the files, confirm that you have the
-correct number of subjects).
+We are interested in understanding the neural bases for decision making under
+risk. Insights from psychology have led to the development of Prospect Theory,
+which asserts that people evaluate outcomes in terms of gains and losses and
+relative to some reference point\cite{kahnemantversky}. It uses a concept
+called loss aversion to describe the preference toward avoiding losses to
+acquiring equal-sized gains. Tom, Fox, Trepel, and Poldrak (2007) investigate
+the neural sources of loss aversion. Their goal was to identify and isolate the
+regions of the brain associated with evaluating gambles and deciding whether or
+not to accept them.
+
+For each of the 16 subjects---eight males and eight females with an average
+age of 22---three trials of the ``mixed gambles task'' are performed. The
+\lstinline{ds005} data set contains the blood-oxygen-level-dependent contrasts
+for each subject and trial. We successfully loaded several
+\lstinline{bold.nii.gz} files, which have a shape of (64, 64, 34, 240).
 
 Briefly explain what approach you intend to take for exploring
 the data and paper.  If you intend to ``reproduce'' some aspect of the paper,
