@@ -1,5 +1,5 @@
-% Project Aleph Progress Report
-% Ross Barnowski, Matthew Brett, Jarrod Millman
+% Project Eta Progress Report
+% Jon Jara, Will Sanderson, Juan Shishido, Paul Wu, Wendy Xu
 % November 12, 2015
 
 # Background
