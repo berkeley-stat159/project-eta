@@ -55,8 +55,8 @@ losing money.
 
 ## Regression
 
-- behavioral data
-- neural data
+![Correspondence Between Neural
+and Behavioral Loss Aversion](image/neural-behavioral-loss-aversion.png)
 
 ## Multi-Pattern Voxel Analysis
 
