@@ -29,21 +29,163 @@
 
 \section{Introduction}
 
-Identify a published fMRI paper and the accompanying data
-\cite{lindquist2008statistical}.  You should explain the basic idea of the
-paper in a paragraph.  You should also perform basic sanity check on the data
-(e.g., can you downloaded, can you load the files, confirm that you have the
-correct number of subjects).
+Our research idea is based on the 2007 paper The Neural Basis of
+Loss Aversion in Decision-Making Under Risk, written by Sabrina M. Tom, Craig
+R. Fox, Christopher Trepel, and Russell A. Poldrack. Our goal is to reproduce
+the major part of the paper with possible simplifications and also develop some
+original analysis on the same data.
 
-Briefly explain what reproducibility means and in what sense you will
-try to reproduce this study.
+A significant portion of the paper is devoted to analyzing neural
+indicators of loss aversion and correlating that neural loss aversion to
+behavioral loss aversion. Test subjects are presented with gambles with equal
+chances of winning and losing and different amounts of money to gain and lose.
+These gamble offers and the subject’s decision of whether or not to accept the
+gamble are recorded, as well as the subject’s neural activities during the
+tasks. Behavioral risk aversion is measured through modeling the participant’s
+decision on the amount of proposed gain and loss of the gambles. On the other
+hand, neural risk aversion is measured through modeling the participant’s fMRI
+data on the amount of proposed gain and loss of the gambles. By analyzing the
+correlations between the coefficients of these models, the authors find that
+some parts of the brain are particularly sensitive to loss and that neural
+activities in the loss sensitive areas are closely related to the extent to
+which a subject avoids risk in behavioral terms.
+
+We will reproduce this part of the paper using mostly linear regression and
+logistic models and evaluate our results against the paper’s results as well as
+using error analysis. We will also visualize our research results consistently
+with 2-D and possibly 3-D graphs. Besides, we would like to experiment with
+Multi-Voxel Pattern Analysis on the fMRI data, which helps detect patterns of
+brain activity by jointly analyzing multiple voxels at the same time. 
 
 \section{Data}
 
+\subsection{Description}
+
+The data set includes 3 sample runs for each subject, with 16 subjects in
+total. The subjects consist of 9 females and 7 males. For each run, the subject
+is presented with a series of gambles with different combinations of gains and
+losses, each combination randomly drawn from a gain/loss matrix of size 16 x
+16. For the purpose of analysis, the data are collapsed into a 4 x 4 matrix.
+The subject’s fMRI data generated during the tasks is available for each run.
+
+\subsection{Acquiring}
+
 \section{Methods}
+
+\subsection{Preprocessing}
+
+\subsubsection{Smoothing}
+
+\subsubsection{Principle Component Analysis}
+
+\subsubsection{Motion Correction}
+
+\subsection{Analysis}
+
+\subsubsection{Primary}
+
+The first task is to reproduce the results of the paper using our own tools.
+The goal is to find areas of the brain in which neural loss aversion is
+correlated to behavioral loss aversion. The result would lead to which parts of
+the brain are responsible for making risky decision. The first step is to fit a
+logistic regression on the behavioral data using a simple linear regression. We
+used a combination of pandas and statsmodels packages to fit a logistic
+regression model on the first subject and all the runs combined. Python modules
+were used rather than R packages in order to keep the whole project in the same
+language and for reproducibility. The logistic regression was modeled in this
+manner:
+
+\[ logit(p) = \beta_0 + \beta_1 X_{gain} + \beta_2 X_{loss} + \epsilon \] 
+
+With gain and loss values beings the 2 regressors in the regression. Subject 1
+had a gain to loss ratio of 2.33, which was inline with gain to loss ratio
+cited by other sources in the paper (around 2.0). The paper was not specific in
+how they dealt with multiple runs per subject but we decided that it would be
+statistically sound to combine the runs for all the patients. In addition, the
+paper conducted pre-processing steps like smoothing and motion correction that
+we still need to employ. 
+
+The logistic regression provided results inline with the paper (and past
+``risk-averse'') studies and were in the end statistically significant,
+however, the main goal of neurological study is to observe how these results
+compare with neural signals and brain activity. This part of the analysis has
+proven to be less trivial than a simple logistic regression. The challenges
+stem mostly from working fMRI data in conjunction with the behavioral variables
+``gain'' and ``loss''. We have tried using simple linear regression at each
+voxel after convolving the fMRI data, but the results yielded blurry images of
+brain slices the general locations of brain activity. While these locations
+give a general idea of which parts of the brain are activated during runs of
+the experiment, the resulting regressions leaves us with hundreds of beta
+coefficients that represent activity without specifying whether the activity is
+due to negative loss response and positive gain response. Further research is
+needed to perform a similar conjunction analysis that was performed in the
+paper. If the complexity of separating the different types of signals is beyond
+the scope of our group, we will move on and use the simple regression model
+with only one parameter. There is worry that without conjunction analysis we
+will not see significant results like those found in the paper and it will be
+hard to compare risk aversions to specific loss/gain values if we can
+differentiate between the responses. Also, the paper specified specific regions
+of the brain with large magnitudes of gain and loss response. To simplify our
+analysis, we could restrict our study to whole brain analysis and see if we
+find any significant correlation, otherwise we will attempt to segment the same
+sections as the ones used in the original study. 
+
+After modeling the fMRI data and hopefully getting valuable coefficients for
+loss and gain responses, we will then have to use robust regression to model
+the values of these neural response coefficients and the behavioral
+coefficients. Robust regression was used in the paper as a way to decrease the
+likelihood of any outliers. We might try to simplify this method by using
+methods learned in class to remove outlier ourselves and then running a simple
+linear regression. In the end, we believe we can reproduce the results of the
+paper but we might need to simplify some of the methods, particularly in the
+process of quantifying neural risk aversion and segmenting risk-averse areas of
+the brain.
+
+\subsubsection{Secondary}
+
 \section{Results}
+
 \section{Discussion}
 
+\subsection{Challenges}
+
+\subsubsection{Subsection}
+
+Many of our issues so far have stemmed from the open ended nature of the
+assignment, resulting in less direction than we are used to. This, combined
+with the new git workflow, has given us some problems that we are working on
+overcoming with a more rigid implementation plan that gives everyone a role.
+We are currently using the workflow as best we can, but will be adding many
+more Git issues in the coming days in order to better assign work and
+facilitate multiple pull requests without merge conflicts. We're having good
+success with Python code when we have a good implementation plan. However, a
+good deal of our codebase deals with fMRI analysis that we haven't had much
+experience working with. This has led to difficulty writing effective tests,
+tests that can inspire full confidence in our implementations. We're working on
+keeping them simple, using basic modular functions on small datasets to ensure
+adequate coverage.
+
+\subsubsection{Team}
+
+We have been working well as a team, and most of our problems are simply
+efficiency related. Each of us has applicable skills, we're just trying to get
+them all streamlined. This is coming together through the workflow, mainly in
+GitHub issues. This allows each of us to work on a different part of the
+project at the same time. We have had trouble getting everyone together at the
+same time due to erratic schedules, but have been overcoming this using the
+workflow.
+
+\subsection{Class Concepts}
+
+We think that we could have used practice in more advanced fMRI analysis
+techniques. We've been having some problems with preprocessing, which involves
+much more detailed work than we thought. We're looking into some extra Python
+libraries to help sort out some advanced preprocessing techniques, smoothing
+out confounding variables like respiration and heartbeat. The workflow has been
+the most helpful focus, but we think we could have used even more practice.
+Because the workflow facilitates efficient team work, we would have liked to
+have seen some more group exercises or homework aimed at perfecting the
+process.
 
 \bibliography{project}
 
