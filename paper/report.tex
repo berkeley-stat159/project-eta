@@ -186,13 +186,38 @@ the brain.
 
 \subsubsection{Secondary}
 
+As part of our secondary analysis, we are investigating whether it is possible
+to use Multi-Voxel Pattern Analysis (MVPA) on our data. Norman, Polyn, Detre,
+and Haxby note that MVPA allows researchers to analyze \textit{vectors} of
+voxel activity values instead of individual ones\cite{norman}. There is greater
+sentivity with this focus on distributed patterns of activity, making it easier
+to detect differences between conditions\cite{bvmvpa}. Typically, linear
+classifiers, such as Gaussian Naive Bayes or linear support vector machines,
+are used in MVPA analyses\cite{norman}. The features correspond to the brain
+activity and the label to the cognitive state. MVPA also provides the ability
+to correlate subject-level classifier estimates across multiple
+trials\cite{norman}.
+
+\subsection{Tools}
+
+We have identified several Python packages we will use for our analysis.
+
+\begin{itemize}
+  \item{NumPy}
+  \item{Nibabel}
+  \item{Statsmodels}
+  \item{Scikit-Learn}
+  \item{Nilearn}
+  \item{PyMVPA}
+  \item{Matplotlib}
+  \item{Seaborn}
+\end{itemize}
+
 \section{Results}
 
 \section{Discussion}
 
 \subsection{Challenges}
-
-\subsubsection{Subsection}
 
 Many of our issues so far have stemmed from the open ended nature of the
 assignment, resulting in less direction than we are used to. This, combined
