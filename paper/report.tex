@@ -31,9 +31,9 @@
 
 Our research idea is based on the 2007 paper The Neural Basis of
 Loss Aversion in Decision-Making Under Risk, written by Sabrina M. Tom, Craig
-R. Fox, Christopher Trepel, and Russell A. Poldrack. Our goal is to reproduce
-the major part of the paper with possible simplifications and also develop some
-original analysis on the same data.
+R. Fox, Christopher Trepel, and Russell A. Poldrack\cite{tom}. Our goal is to
+reproduce the major part of the paper with possible simplifications and also
+develop some original analysis on the same data.
 
 A significant portion of the paper is devoted to analyzing neural
 indicators of loss aversion and correlating that neural loss aversion to
@@ -105,18 +105,17 @@ We are also aware of the following disadvantages.
   \item{edge artifacts}
 \end{itemize}
 
-Typically, for single-subject analyses, a width of 4 mm is used.
-
-%http://support.brainvoyager.com/functional-analysis-preparation/27-pre-processing/279-spatial-smoothing-in-preparation.html
+Typically, for single-subject analyses, a width of 4 mm is used. This
+information came from the Brain Voyager website\cite{bvsmoothing}.
 
 \subsubsection{Principle Component Analysis}
 
 We are also considering using principle component analysis (PCA) to reduce the
 dimensionality of our data. We will investigate the standard PCA approach,
 e.g., the one found in Scikit-Learn's decomposition submodule. Research by
-Viviani, Gron, and Spitzer, however, has shown that \textit{functional}
-principle component analysis is more effective than the standard approach. We 
-plan to experiment with this approach.
+Viviani, Gron, and Spitzer\cite{viviani}, however, has shown that
+\textit{functional} principle component analysis is more effective than the
+standard approach. We plan to experiment with this approach.
 
 \subsubsection{Motion Correction}
 
@@ -231,6 +230,6 @@ Because the workflow facilitates efficient team work, we would have liked to
 have seen some more group exercises or homework aimed at perfecting the
 process.
 
-\bibliography{project}
+\bibliography{report}
 
 \end{document}
