@@ -36,7 +36,7 @@ def sphere(arr, c, r=1):
     ----------
     arr: np.ndarray
         2d or 3d input array
-    c: tuple ([z,] x, y)
+    c: tuple (x, y[, z])
         The center voxel from which the volume is created
     r: int
         The radius of the volume
@@ -147,7 +147,7 @@ def sphere(arr, c, r=1):
 
     # center indices
     if len(c) == 3:
-        z, x, y = c[0], c[1], c[2]
+        x, y, z = c[0], c[1], c[2]
         # zb, zf = z - r, z + r
         zb, zf = b(z, r), f(z, r)
     elif len(c) == 2:
@@ -162,7 +162,7 @@ def sphere(arr, c, r=1):
         zb, zf = inrange(arr, zb, zf, 0)
         xb, xf = inrange(arr, xb, xf, 1)
         yb, yf = inrange(arr, yb, yf, 2)
-        return arr[zb:zf+1, xb:xf+1, yb:yf+1]
+        return arr[xb:xf+1, yb:yf+1, zb:zf+1]
     elif len(c) == 2:
         xb, xf = inrange(arr, xb, xf, 0)
         yb, yf = inrange(arr, yb, yf, 1)
