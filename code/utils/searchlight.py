@@ -1,5 +1,7 @@
 from __future__ import print_function, division
 
+from itertools import product
+
 import numpy as np
 
 
@@ -159,14 +161,30 @@ def sphere(arr, c, r=1):
 
     # checking within dimensions
     if len(c) == 3:
-        zb, zf = inrange(arr, zb, zf, 0)
-        xb, xf = inrange(arr, xb, xf, 1)
-        yb, yf = inrange(arr, yb, yf, 2)
+        xb, xf = inrange(arr, xb, xf, 0)
+        yb, yf = inrange(arr, yb, yf, 1)
+        zb, zf = inrange(arr, zb, zf, 2)
         return arr[xb:xf+1, yb:yf+1, zb:zf+1]
     elif len(c) == 2:
         xb, xf = inrange(arr, xb, xf, 0)
         yb, yf = inrange(arr, yb, yf, 1)
         return arr[xb:xf+1, yb:yf+1]
+
+def indices(shp):
+    """Get a list of all indices based on `shp`
+    
+    Parameter
+    ---------
+    shp: tuple
+        From calling the `.shape` attribute
+        
+    Returns
+    -------
+    indices: list
+        A list of tuples for every index
+    """
+    a = [[v for v in range(s)] for s in shp]
+    return list(product(*a))
 
 
 
