@@ -29,7 +29,7 @@ def get_image(s, r):
     (64, 64, 34, 240)
     """
     s, r = n_convert(s, r)
-    f_img = '../../data/ds005/sub'+s+\
+    f_img = '../data/ds005/sub'+s+\
             '/BOLD/task001_run'+r+\
             '/bold.nii.gz'
     return nib.load(f_img)
@@ -60,7 +60,7 @@ def get_cond(s, r, c):
     4     24         3          1
     """
     s, r, c = n_convert(s, r, c)
-    f_cond = '../../data/ds005/sub'+s+\
+    f_cond = '../data/ds005/sub'+s+\
              '/model/model001/onsets/task001_run'+r+\
              '/cond'+c+'.txt'
     cond = pd.DataFrame(np.loadtxt(f_cond),
@@ -91,7 +91,7 @@ def get_behav(s, r):
     4     24         3    18     5  13.05        1        1  1.670
     """
     s, r = n_convert(s, r)
-    f_behav = '../../data/ds005/sub'+s+\
+    f_behav = '../data/ds005/sub'+s+\
               '/behav/task001_run'+r+\
               '/behavdata.txt'
     behav = pd.read_csv(f_behav, sep='\t')
