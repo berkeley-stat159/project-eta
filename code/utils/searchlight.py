@@ -170,22 +170,35 @@ def sphere(arr, c, r=1):
         yb, yf = inrange(arr, yb, yf, 1)
         return arr[xb:xf+1, yb:yf+1]
 
-def indices(shp):
-    """Get a list of all indices based on `shp`
-    
-    Parameter
-    ---------
-    shp: tuple
-        From calling the `.shape` attribute
-        
+def nonzero_indices(arr):
+    """Get the 3d indices for `arr` (4d) where the value is nonzero
+
+    Parameters
+    ----------
+    arr : np.ndarray
+        The image data returned from calling `nib.load(f).get_data()`
+
     Returns
     -------
-    indices: list
-        A list of tuples for every index
-    """
-    a = [[v for v in range(s)] for s in shp]
-    return list(product(*a))
+    nonzeros : dict
+        A dict where the keys are int and the values are tuples
 
+    Examples
+    --------
+    >>> np.random.seed(42)
+    >>> X = np.random.randn(16).reshape(2, 2, 2, 2)
+    >>> Y = np.ones((2, 2, 2, 2))
+    >>> Z = np.round(X - Y).astype(int)
+    >>> nonzero_indices(Z)[0]
+    (0, 1, 1)
+    >>> nonzero_indices(Z)[4]
+    (1, 0, 1)
+    """
+    nonzero_indices = list(set(zip(*np.nonzero(arr)[:-1])))
+    nonzeros = {k : v
+                for (k, v) in 
+                    zip(range(len(nonzero_indices)), nonzero_indices)}
+    return nonzeros
 
 
 if __name__ == '__main__':
