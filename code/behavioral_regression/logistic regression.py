@@ -18,16 +18,20 @@ df[df.respcat > 0]
 df['intercept'] = 1.0
 
 
-print df.head()
+print df.heaed()
 #variables to fit 
 
-train_cols = df.columns[[1,2,7]]
+# logistic regresssion fit function 
+def apply_logistic(x):
+	train_cols = df.columns[[1,2,7]]
 
-#logistic regression fit 
-logit = sm.Logit(df['respcat'], df[train_cols])
+	#logistic regression fit 
+	logit = sm.Logit(df['respcat'], df[train_cols])
 
-# fit the model
-result = logit.fit()
+	# fit the model
+	result = logit.fit()
+
+	return result
 
 
 
