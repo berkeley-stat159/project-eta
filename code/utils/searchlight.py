@@ -176,8 +176,8 @@ def nonzero_indices(arr):
 
     Returns
     -------
-    nonzeros : dict
-        A dict where the keys are int and the values are tuples
+    nonzeros : list
+        A list of tuples where the tuples are 3d indices
 
     Examples
     --------
@@ -190,10 +190,7 @@ def nonzero_indices(arr):
     >>> nonzero_indices(Z)[4]
     (1, 0, 1)
     """
-    nonzero_indices = list(set(zip(*np.nonzero(arr)[:-1])))
-    nonzeros = {k : v
-                for (k, v) in 
-                    zip(range(len(nonzero_indices)), nonzero_indices)}
+    nonzeros = list(set(zip(*np.nonzero(arr)[:-1])))
     return nonzeros
 
 
