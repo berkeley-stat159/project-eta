@@ -9,15 +9,15 @@ import nibabel as nib
 from nums import n_convert
 
 
-def get_image(s, r):
+def get_image(r, s):
     """Load .nii file for subject `s` on run `r`
 
     Parameters
     ----------
-    s : int
-        Subject number
     r : int
         Run number
+    s : int
+        Subject number
 
     Returns
     -------
@@ -34,15 +34,15 @@ def get_image(s, r):
             '/bold.nii.gz'
     return nib.load(f_img)
 
-def get_cond(s, r, c):
+def get_cond(r, s, c):
     """Load condition data file `c` for subject `s` on run `r`
 
     Parameters
     ----------
-    s : int
-        Subject number
     r : int
         Run number
+    s : int
+        Subject number
     c : int
         Condition file
 
@@ -68,7 +68,7 @@ def get_cond(s, r, c):
                         columns=['onset', 'duration', 'amplitude'])
     return cond
 
-def get_behav(s, r):
+def get_behav(r, s):
     """Load behavioral data file for subject `s` on run `r`
     Remove bad activations based on `respcat`
 
@@ -103,43 +103,62 @@ def get_behav(s, r):
     behav.reset_index(drop=True, inplace=True)
     return behav
 
-def n_load(fn, s, *args):
-    """Load an arbitrary number of data files
-    Only works with `get_image` and `get_behav`
+def n_load(fn, args, kwargs):
+    """Load an arbitrary number of objects
 
     Parameters
     ----------
     fn : function
         The function to use for loading data
-    s : int
-        Subject number
-    args : variable length argument list (> 0)
+    args : tuple or list
+        Arguments of variable length
+    kwargs : dict
+        Keyword arguments of variable length
 
     Returns
     -------
     n_loaded: tuple
-        Tuple of length *args with loaded data
+        Tuple of length *args
 
     Examples
     --------
-    >>> n_load(get_behav, 1, 1, 2)[0][:5]
+    >>> n_load(get_behav, [1, 2], {'s' : 1})[0][:5]
        onset  duration  gain  loss  PTval  respnum  respcat     RT
     0      4         3    18    12   6.12        2        1  1.793
     1      8         3    10    15  -4.85        3        0  1.637
     2     18         3    34    16  18.16        1        1  1.316
     3     24         3    18     5  13.05        1        1  1.670
     4     28         3    26    13  13.13        2        1  1.232
-    >>> n_load(get_behav, 1, 1, 2)[1][:5]
+    >>> n_load(get_behav, [1, 2], {'s' : 1})[1][:5]
        onset  duration  gain  loss  PTval  respnum  respcat     RT
     0      0         3    20     5  15.05        1        1  1.290
     1      4         3    22    17   5.17        2        1  1.163
     2      8         3    10    16  -5.84        4        0  1.265
     3     12         3    38    18  20.18        2        1  1.488
     4     16         3    20    14   6.14        2        1  1.446
+    >>> bh1, bh2, bh3 = n_load(get_behav, [1, 2, 3], {'s' : 1})
+    >>> n_load(time_course_behav, [bh1, bh2, bh3], {'TR':2, 'n_trs':240})[0]
+    array([ 0.,  0.,  1.,  0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  1.,
+            0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  0.,
+            1.,  0.,  1.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,
+            1.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  1.,
+            0.,  1.,  0.,  1.,  0.,  0.,  1.,  0.,  1.,  0.,  0.,  1.,  0.,
+            1.,  0.,  1.,  0.,  0.,  1.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,
+            1.,  0.,  1.,  0.,  1.,  0.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,
+            1.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,
+            1.,  0.,  1.,  0.,  0.,  0.,  1.,  0.,  1.,  0.,  0.,  0.,  0.,
+            1.,  0.,  1.,  0.,  0.,  0.,  1.,  0.,  1.,  0.,  0.,  1.,  0.,
+            1.,  0.,  0.,  1.,  0.,  0.,  1.,  0.,  0.,  0.,  1.,  0.,  1.,
+            0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,
+            0.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  0.,  1.,  0.,  0.,  1.,
+            0.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,
+            1.,  0.,  1.,  0.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,
+            0.,  0.,  0.,  0.,  1.,  0.,  1.,  0.,  0.,  1.,  0.,  1.,  0.,
+            1.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  0.,  0.,  1.,  0.,  1.,
+            0.,  1.,  0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,  1.,  0.,  1.,
+            0.,  1.,  0.,  1.,  0.,  0.])
     """
-    assert fn.__name__ in ['get_image', 'get_behav'], 'not a supported fn'
-    assert len(args) >= 1, 'at least one arg needed'
-    n_loaded = tuple([fn(s, r) for r in args])
+    n_loaded = tuple([fn(r, **kwargs) for r in args])
     if len(n_loaded) == 1:
         return n_loaded[0]
     else:
