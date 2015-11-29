@@ -2,43 +2,53 @@ import pandas as pd
 import statsmodels.api as sm
 import pylab as pl
 import numpy as np
+from statsmodels.tools.sm_exceptions import PerfectSeparationError
 
 
-#applied for each run for each subject
 
-df = pd.read_csv("behavdata.txt",delim_whitespace=True)
 
-#removing negative value 
-
-df[df.respcat > 0]
-
-# take a look at the dataset
-
-#adding intercept column 
-df['intercept'] = 1.0
 
 
 print df.heaed()
 #variables to fit 
 
 # logistic regresssion fit function 
-def apply_logistic(x):
+def apply_logistic(df):
+	#removing negative value 
+	df = df[df.respcat >= 0]
+	#adding intercept column 
+	df['intercept'] = 1.0
 	train_cols = df.columns[[1,2,7]]
-
 	#logistic regression fit 
 	logit = sm.Logit(df['respcat'], df[train_cols])
-
 	# fit the model
 	result = logit.fit()
-
-	return result
-
+	return result.params 
 
 
-# print results 
+### apply logistic to all 
 
 
-print result.summary()
+def apply_logistic_all():
+	#create empty frame 
+	params = pd.DataFrame()
+	for root, dirs, files in os.walk("."):
+	    for file in files:
+	    	#find files that are called behavdata
+	        if file.startswith("behavdata"):
+	        	#extract parent directory (aka which subject we are looking at)
+	        	subject = root[2:8]
+	        	df = pd.read_csv(os.path.join(root, file), delim_whitespace=True)
+
+	        	#try-except block that skips behave.txt that raise error
+	        	try:
+	        		results_coeff = apply_logistic(df)
+	        		results_coeff['subject'] = subject
+	        		params = params.append(results_coeff, ignore_index = True)
+	    		except PerfectSeparationError:
+	    			print("error")
+	    			continue
+	return params 
 
 """
                            Logit Regression Results                           
