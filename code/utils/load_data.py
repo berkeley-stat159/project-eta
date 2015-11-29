@@ -103,7 +103,7 @@ def get_behav(r, s):
     behav.reset_index(drop=True, inplace=True)
     return behav
 
-def n_load(fn, args, kwargs):
+def n_load(fn, args, kwargs=None):
     """Load an arbitrary number of objects
 
     Parameters
@@ -158,7 +158,10 @@ def n_load(fn, args, kwargs):
             0.,  1.,  0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,  1.,  0.,  1.,
             0.,  1.,  0.,  1.,  0.,  0.])
     """
-    n_loaded = tuple([fn(r, **kwargs) for r in args])
+    if kwargs is None:
+        n_loaded = tuple([fn(r) for r in args])
+    else:
+        n_loaded = tuple([fn(r, **kwargs) for r in args])
     if len(n_loaded) == 1:
         return n_loaded[0]
     else:
