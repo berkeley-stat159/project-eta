@@ -3,6 +3,7 @@ from __future__ import print_function, division
 from itertools import product
 
 import numpy as np
+import pandas as pd
 
 
 def inrange(arr, b, f, ind):
@@ -186,11 +187,14 @@ def nonzero_indices(arr):
     >>> Y = np.ones((2, 2, 2, 2))
     >>> Z = np.round(X - Y).astype(int)
     >>> nonzero_indices(Z)[0]
-    (0, 1, 1)
+    array([0, 0, 0])
     >>> nonzero_indices(Z)[4]
-    (1, 0, 1)
+    array([1, 0, 0])
     """
-    nonzeros = list(set(zip(*np.nonzero(arr)[:-1])))
+    nz = np.transpose(np.nonzero(arr)[:-1])
+    df = pd.DataFrame(nz)
+    df.drop_duplicates(inplace=True)
+    nonzeros = df.values
     return nonzeros
 
 
