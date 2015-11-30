@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import nibabel as nib
 from sklearn.metrics import accuracy_score
 from sklearn.linear_model import LogisticRegression
@@ -99,7 +100,7 @@ def make_y(yi, yj):
     y = np.append(yi, yj)
     return y
 
-def classification(s, TR, clf):
+def classification(s, TR, clf, target):
     """Classification using `clf` of 'active' states for subject `s`
     across all runs. Using Leave-Block-Out cross-validation (LBO-CV).
 
@@ -111,12 +112,18 @@ def classification(s, TR, clf):
         Repetition Time in seconds
     clf : abc.ABCMeta
         Scikit-Learn classifier, e.g., `sklearn.linear_model.LinearRegression`
+    target : str
+        A column in the `behavdata.txt` output. Can only be `respcat`,
+        or `gain_ind`.
+
+    TODO: accept `respnum` for multi-class classification
 
     Returns
     -------
     _ : pd.DataFrame
         Voxel index values and classification accuracy scores for each run
     """
+    assert target in ['respcat', 'gain_ind'], 'invalid target'
     img1, img2, img3 = n_load(get_image, [1, 2, 3], {'s' : s})
     data1, data2, data3 = tuple([i.get_data() for i in [img1, img2, img2]])
     bh1, bh2, bh3 = n_load(get_behav, [1, 2, 3], {'s' : s})
@@ -126,20 +133,45 @@ def classification(s, TR, clf):
                            [bh1, bh2, bh3],
                            {'TR' : TR, 'n_trs' : n_trs})
 
-    y1 = np.array(bh1.respcat)
-    y2 = np.array(bh2.respcat)
-    y3 = np.array(bh3.respcat)
+    y1 = np.array(bh1[target])
+    y2 = np.array(bh2[target])
+    y3 = np.array(bh3[target])
 
-    # TODO make this faster in `searchlight.nonzero_indices`
     nz1, nz2, nz3 = n_load(nonzero_indices, [data1, data2, data3])
-    nz = list(set(nz1 + nz2 + nz3))
-    nonzeros = {k : v for (k, v) in zip(range(len(nz)), nz)}
+    nz_df_list = [pd.DataFrame(nz1), pd.DataFrame(nz2), pd.DataFrame(nz3)]
+    nz = pd.concat(nz_df_list)
+    nz.columns = ['x', 'y', 'z']
+    nz.drop_duplicates(inplace=True)
+    nz.reset_index(drop=True, inplace=True)
+    nz['center'] = zip(nz.x, nz.y, nz.z)
+    nz['f1'], nz['f2'], nz['f3'] = 0, 0, 0
 
-    for i in nonzeros.keys()[:1]: # TODO remove slice
-        X1, X2, X3 = n_load(sphere, [data1, data2, data3], {'c' : nonzeros[i]})
+    for c in nz.center[:10000]: # TODO remove slice
+        X1, X2, X3 = n_load(sphere, [data1, data2, data3], {'c' : c})
         X1 = shape_X(X1, n_trs, tc1)
         X2 = shape_X(X2, n_trs, tc2)
         X3 = shape_X(X3, n_trs, tc3)
+        cv_X = [((X1, X2), X3), ((X1, X3), X2), ((X2, X3), X1)]
+        cv_y = [((y1, y2), y3), ((y1, y3), y2), ((y2, y3), y1)]
+
+        for i, fold in enumerate(cv_X):
+            X_train = make_X(fold[0][0], fold[0][1])
+            X_test = fold[1]
+            y_train = make_y(cv_y[i][0][0], cv_y[i][0][1])
+            y_test = cv_y[i][1]
+            clf.fit(X_train, y_train)
+            labels = clf.predict(X_test)
+            accuracy = accuracy_score(labels, y_test)
+            if y_test.sum() > len(y_test) / 2.0:
+                baseline = (y_test == 1).sum() / float(len(y_test))
+            else:
+                baseline = (y_test == 0).sum() / float(len(y_test))
+            if accuracy > baseline * 1.025:
+                print c
+                print baseline, accuracy
+            else:
+                pass
+        # TODO put accuracy scores in a data structure
 
 
 if __name__ == '__main__':

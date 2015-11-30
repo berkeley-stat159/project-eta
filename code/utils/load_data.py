@@ -86,12 +86,12 @@ def get_behav(r, s):
     Examples
     --------
     >>> get_behav(1, 1)[:5]
-       onset  duration  gain  loss  PTval  respnum  respcat     RT
-    0      4         3    18    12   6.12        2        1  1.793
-    1      8         3    10    15  -4.85        3        0  1.637
-    2     18         3    34    16  18.16        1        1  1.316
-    3     24         3    18     5  13.05        1        1  1.670
-    4     28         3    26    13  13.13        2        1  1.232
+       onset  duration  gain  loss  PTval  respnum  respcat     RT  gain_ind
+    0      4         3    18    12   6.12        2        1  1.793         1
+    1      8         3    10    15  -4.85        3        0  1.637         0
+    2     18         3    34    16  18.16        1        1  1.316         1
+    3     24         3    18     5  13.05        1        1  1.670         1
+    4     28         3    26    13  13.13        2        1  1.232         1
     """
     s, r = n_convert(s, r)
     f_behav = '../data/ds005/sub'+s+\
@@ -100,6 +100,7 @@ def get_behav(r, s):
     behav = pd.read_csv(f_behav, sep='\t')
     behav.insert(1, 'duration', 3)
     behav = behav[behav.respcat>=0]
+    behav['gain_ind'] = (behav.gain >= behav.loss) * 1
     behav.reset_index(drop=True, inplace=True)
     return behav
 
@@ -123,19 +124,19 @@ def n_load(fn, args, kwargs=None):
     Examples
     --------
     >>> n_load(get_behav, [1, 2], {'s' : 1})[0][:5]
-       onset  duration  gain  loss  PTval  respnum  respcat     RT
-    0      4         3    18    12   6.12        2        1  1.793
-    1      8         3    10    15  -4.85        3        0  1.637
-    2     18         3    34    16  18.16        1        1  1.316
-    3     24         3    18     5  13.05        1        1  1.670
-    4     28         3    26    13  13.13        2        1  1.232
+       onset  duration  gain  loss  PTval  respnum  respcat     RT  gain_ind
+    0      4         3    18    12   6.12        2        1  1.793         1
+    1      8         3    10    15  -4.85        3        0  1.637         0
+    2     18         3    34    16  18.16        1        1  1.316         1
+    3     24         3    18     5  13.05        1        1  1.670         1
+    4     28         3    26    13  13.13        2        1  1.232         1
     >>> n_load(get_behav, [1, 2], {'s' : 1})[1][:5]
-       onset  duration  gain  loss  PTval  respnum  respcat     RT
-    0      0         3    20     5  15.05        1        1  1.290
-    1      4         3    22    17   5.17        2        1  1.163
-    2      8         3    10    16  -5.84        4        0  1.265
-    3     12         3    38    18  20.18        2        1  1.488
-    4     16         3    20    14   6.14        2        1  1.446
+       onset  duration  gain  loss  PTval  respnum  respcat     RT  gain_ind
+    0      0         3    20     5  15.05        1        1  1.290         1
+    1      4         3    22    17   5.17        2        1  1.163         1
+    2      8         3    10    16  -5.84        4        0  1.265         0
+    3     12         3    38    18  20.18        2        1  1.488         1
+    4     16         3    20    14   6.14        2        1  1.446         1
     >>> bh1, bh2, bh3 = n_load(get_behav, [1, 2, 3], {'s' : 1})
     >>> n_load(time_course_behav, [bh1, bh2, bh3], {'TR':2, 'n_trs':240})[0]
     array([ 0.,  0.,  1.,  0.,  1.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  1.,
