@@ -34,7 +34,7 @@ def get_image(r, s):
             '/bold.nii.gz'
     return nib.load(f_img)
 
-def get_cond(s, r, c, txt = False):
+def get_cond(r, s, c):
     """Load condition data file `c` for subject `s` on run `r`
 
     Parameters
@@ -66,13 +66,9 @@ def get_cond(s, r, c, txt = False):
              '/cond'+c+'.txt'
     cond = pd.DataFrame(np.loadtxt(f_cond),
                         columns=['onset', 'duration', 'amplitude'])
-    if txt == True:
-        return f_cond
-    else:
-        return cond
+    return cond
 
-
-def get_behav(s, r, txt=False):
+def get_behav(r, s):
     """Load behavioral data file for subject `s` on run `r`
     Remove bad activations based on `respcat`
 
@@ -106,12 +102,7 @@ def get_behav(s, r, txt=False):
     behav = behav[behav.respcat>=0]
     behav['gain_ind'] = (behav.gain >= behav.loss) * 1
     behav.reset_index(drop=True, inplace=True)
-
-    if txt == True: 
-        return f_behav
-    else:
-        return behav
-
+    return behav
 
 def n_load(fn, args, kwargs=None):
     """Load an arbitrary number of objects
