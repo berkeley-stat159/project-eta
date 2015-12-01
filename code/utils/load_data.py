@@ -106,7 +106,6 @@ def get_behav(s, r, txt=False):
     behav = behav[behav.respcat>=0]
     behav['gain_ind'] = (behav.gain >= behav.loss) * 1
     behav.reset_index(drop=True, inplace=True)
-
     if txt == True: 
         return f_behav
     else:
