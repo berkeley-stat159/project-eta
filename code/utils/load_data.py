@@ -34,7 +34,7 @@ def get_image(s, r):
             '/bold.nii.gz'
     return nib.load(f_img)
 
-def get_cond(s, r, c):
+def get_cond(s, r, c, txt = False):
     """Load condition data file `c` for subject `s` on run `r`
 
     Parameters
@@ -65,9 +65,12 @@ def get_cond(s, r, c):
              '/cond'+c+'.txt'
     cond = pd.DataFrame(np.loadtxt(f_cond),
                         columns=['onset', 'duration', 'amplitude'])
-    return cond
+    if txt == True:
+        return f_cond
+    else:
+        return cond
 
-def get_behav(s, r):
+def get_behav(s, r, txt=False):
     """Load behavioral data file for subject `s` on run `r`
 
     Parameters
@@ -96,7 +99,10 @@ def get_behav(s, r):
               '/behavdata.txt'
     behav = pd.read_csv(f_behav, sep='\t')
     behav.insert(1, 'duration', 3)
-    return behav
+    if txt == True: 
+        return f_behav
+    else:
+        return behav
 
 
 if __name__ == '__main__':
