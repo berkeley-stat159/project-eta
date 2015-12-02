@@ -61,7 +61,7 @@ def build_design(data,behavdata):
   Example
   -------
   >>> data = get_img(1,1).get_data
-  >>> behavdata = get_data(1,1)
+  >>> behavdata = get_behav(1,1)
   >>> build_design(data,behavdata).shape 
   (240,4)
   """ 
@@ -109,7 +109,7 @@ def regression_fit(data, design):
   Example
   -------
   >>> data = get_img(1,1).get_data
-  >>> behavdata = get_data(1,1)
+  >>> behavdata = get_behav(1,1)
   >>> design  = build_design(data,behavdata)
   >>> regression_fit(data, design).shape 
   (64, 64, 34, 4)
