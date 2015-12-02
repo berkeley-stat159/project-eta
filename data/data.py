@@ -4,9 +4,6 @@ import hashlib
 import os
 
 
-d = {'ds107_sub001_highres.nii': "fd733636ae8abe8f0ffbfadedd23896c"}
-
-
 def generate_file_md5(filename, blocksize=2**20):
     m = hashlib.md5()
     with open(filename, "rb") as f:
@@ -30,5 +27,23 @@ def check_hashes(d):
     return all_good
 
 
+def generateActualFileHashes():
+    """
+    Pulls actual hash values from the given text file in order to compare
+
+    """
+    hashes = {}
+    with open('ds005_raw_checksums.txt', 'r') as checks:
+        l = checks.readlines()
+    for string in l:
+        split = string.split(' ')
+        hashes[split[2].rstrip('\n')] = split[0]
+
+    return hashes    
+
 if __name__ == "__main__":
-    check_hashes(d)
+    d = generateActualFileHashes()
+    if check_hashes(d):
+        print("All hashes are correct, data not corrupted.")
+    else:
+        print("One or more hashes are incorrect, data may be corrupted.")

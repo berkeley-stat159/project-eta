@@ -6,4 +6,4 @@ clean:
 	rm -f progress.pdf
 
 progress.pdf: progress.md
-	pandoc -t beamer -s progress.md -o progress.pdf
+	pandoc -t beamer -s progress.md -V theme:m -o progress.pdf

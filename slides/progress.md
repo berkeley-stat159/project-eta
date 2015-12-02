@@ -2,35 +2,85 @@
 % Jon Jara, Will Sanderson, Juan Shishido, Paul Wu, Wendy Xu
 % November 12, 2015
 
-# Background
+# Introduction
 
 ## The Paper
 
-- from OpenFMRI.org
-- ds001
+The Neural Basis of Loss Aversion in Decision-Making Under Risk
+
+Authors: Tom, Fox, Trepel, and Poldrak (2007)
+
+Idea:
+
+> We investigated neural correlates of loss aversion while individuals decided
+whether to accept or reject gambles that offered a 50/50 change of gaining or
+losing money.
 
 ## The Data
 
-- 12 subjects
-- 2 conditions per subject
+- from OpenFMRI.org
+    - `ds005`
+- 16 subjects
+- 3 conditions per subject
 
 ## The Method
 
-- linear regression
+- iteratively weighted least squares
+    - used to reduce outliers
+- logistic regression
+    - gain and loss
 
-# Initial work
+# Initial Work
 
-## EDA
+## Basics
 
 - downloaded data
-- simple plots, summary statistics
+    - created a `bash` script included in `Makefile`
+- convolution
+    - gamma for hemodynamic
+    - non-constant repetition time for neural model
+- regression
+- RMS
 
-# Next steps
+## Example Plot
 
-## Preprocessing / Validation
+![Middle slice of $\hat{\beta}_1$](image/beta1_middle_slice.png)
 
-- PCA
+# Plan
 
-## Statistical Analysis
+## Statistical Analyses
 
-- linear model
+- linear regression
+- multi-pattern voxel analysis
+
+## Regression
+
+![Correspondence Between Neural
+and Behavioral Loss Aversion](image/neural-behavioral-loss-aversion.png)
+
+## Multi-Pattern Voxel Analysis
+
+Used for estimating the whole brain.
+
+Norman, Polyn, Detre, and Haxby (2006)
+
+## Tools
+
+- NumPy
+- Nibabel
+- Statsmodels
+- Scikit-Learn
+- Nilearn
+- PyMVPA
+- Matplotlib
+- Seaborn
+
+# Process
+
+## Most Difficult Part
+
+- defining and scoping an analysis plan
+    - data approaches
+    - analyses methods
+- Git workflow
+    - coordination

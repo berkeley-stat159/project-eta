@@ -1,6 +1,8 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=0.75in]{geometry}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 
 \title{The title of your project proposal}
 \author{
@@ -31,9 +33,9 @@
 
 Our research idea is based on the 2007 paper The Neural Basis of
 Loss Aversion in Decision-Making Under Risk, written by Sabrina M. Tom, Craig
-R. Fox, Christopher Trepel, and Russell A. Poldrack. Our goal is to reproduce
-the major part of the paper with possible simplifications and also develop some
-original analysis on the same data.
+R. Fox, Christopher Trepel, and Russell A. Poldrack\cite{tom}. Our goal is to
+reproduce the major part of the paper with possible simplifications and also
+develop some original analysis on the same data.
 
 A significant portion of the paper is devoted to analyzing neural
 indicators of loss aversion and correlating that neural loss aversion to
@@ -70,15 +72,58 @@ The subject’s fMRI data generated during the tasks is available for each run.
 
 \subsection{Acquiring}
 
+A primary goal of ours is to ensure that individuals who wish to replicate or
+improve upon our work can easily do so. To that end, in terms of data access,
+we have created a bash script that fetches the data from www.openfmri.org and
+untars it. It runs only if the data directory doesn't already exist. The script
+also downloads the checksums and we've written a Python script to check that
+the hashes match. We will incorporate the Python script in the Makefile for
+downloading the data.
+
 \section{Methods}
 
 \subsection{Preprocessing}
 
+We are considering several preprocessing techniques to use on our data.
+
 \subsubsection{Smoothing}
+
+Smoothing is a process that averages data---in this case, voxels---with its
+neighbors. This is typically done using a Gaussian function. The selected width
+of the distribution determines how much the data are smoothed.
+
+There are several benefits related to smoothing. Below, we list the ones that
+are relevant for our analysis.
+
+\begin{itemize}
+  \item increased sensitivity
+  \item making the error distribution normal
+\end{itemize}
+
+We are also aware of the following disadvantages.
+
+\begin{itemize}
+  \item{reduced spatial resolution}
+  \item{edge artifacts}
+\end{itemize}
+
+Typically, for single-subject analyses, a width of 4 mm is used. This
+information came from the Brain Voyager website\cite{bvsmoothing}.
 
 \subsubsection{Principle Component Analysis}
 
+We are also considering using principle component analysis (PCA) to reduce the
+dimensionality of our data. We will investigate the standard PCA approach,
+e.g., the one found in Scikit-Learn's decomposition submodule. Research by
+Viviani, Gron, and Spitzer\cite{viviani}, however, has shown that
+\textit{functional} principle component analysis is more effective than the
+standard approach. We plan to experiment with this approach.
+
 \subsubsection{Motion Correction}
+
+Another way in which we will attempt to increase the signal from our data is to
+correct for motion. Nipy includes the function \texttt{FmriRealign4d} that
+corrects for both motion and slice timing.
 
 \subsection{Analysis}
 
@@ -143,13 +188,47 @@ the brain.
 
 \subsubsection{Secondary}
 
+As part of our secondary analysis, we are investigating whether it is possible
+to use Multi-Voxel Pattern Analysis (MVPA) on our data. Norman, Polyn, Detre,
+and Haxby note that MVPA allows researchers to analyze \textit{vectors} of
+voxel activity values instead of individual ones\cite{norman}. There is greater
+sentivity with this focus on distributed patterns of activity, making it easier
+to detect differences between conditions\cite{bvmvpa}. Typically, linear
+classifiers, such as Gaussian Naive Bayes or linear support vector machines,
+are used in MVPA analyses\cite{norman}. The features correspond to the brain
+activity and the label to the cognitive state. MVPA also provides the ability
+to correlate subject-level classifier estimates across multiple
+trials\cite{norman}.
+
+\subsection{Tools}
+
+We have identified several Python packages we will use for our analysis.
+
+\begin{itemize}
+  \item{NumPy}
+  \item{Nibabel}
+  \item{Statsmodels}
+  \item{Scikit-Learn}
+  \item{Nilearn}
+  \item{PyMVPA}
+  \item{Matplotlib}
+  \item{Seaborn}
+\end{itemize}
+
 \section{Results}
+
+Thus far, we have run some initial analyses on our data. We have performed
+convolution as well as a linear regression. The following is a plot of a middle
+slice of the $\hat{\beta}_1$ of a subject's brain.
+
+\includegraphics[width=\textwidth]{beta1_middle_slice.png}
+
+We also have code for our first pass at the logistic regression using the
+behavioral data.
 
 \section{Discussion}
 
 \subsection{Challenges}
-
-\subsubsection{Subsection}
 
 Many of our issues so far have stemmed from the open ended nature of the
 assignment, resulting in less direction than we are used to. This, combined
@@ -187,6 +266,6 @@ Because the workflow facilitates efficient team work, we would have liked to
 have seen some more group exercises or homework aimed at perfecting the
 process.
 
-\bibliography{project}
+\bibliography{report}
 
 \end{document}
