@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt  # the Python plotting package
 from scipy.stats import gamma
 import nibabel as nib 
 import numpy.linalg as npl
-from utils.load_data import *
-from utils.stimuli import events2neural 
+from load_data import *
+from stimuli import events2neural 
 
 
 
