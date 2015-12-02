@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt  # the Python plotting package
 from scipy.stats import gamma
 import nibabel as nib 
 import numpy.linalg as npl
-from utils.load_data import *
-from utils.stimuli import events2neural 
+from load_data import *
+from stimuli import events2neural 
 
 
 
@@ -61,7 +61,7 @@ def build_design(data,behavdata):
   Example
   -------
   >>> data = get_img(1,1).get_data
-  >>> behavdata = get_data(1,1)
+  >>> behavdata = get_behav(1,1)
   >>> build_design(data,behavdata).shape 
   (240,4)
   """ 
@@ -109,7 +109,7 @@ def regression_fit(data, design):
   Example
   -------
   >>> data = get_img(1,1).get_data
-  >>> behavdata = get_data(1,1)
+  >>> behavdata = get_behav(1,1)
   >>> design  = build_design(data,behavdata)
   >>> regression_fit(data, design).shape 
   (64, 64, 34, 4)
