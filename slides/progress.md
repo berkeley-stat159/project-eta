@@ -1,6 +1,6 @@
 % Analysis Report
-% Jon Jara, Juan Shishido, Paul Wu, Wendy Xu
-% November 12, 2015
+% Jon Miguel Jara, Juan Shishido, Paul Wu, Wendy Xu
+% December 3rd, 2015
 
 # Introduction
 
@@ -31,65 +31,90 @@ losing money.
 
 
 ## Linear Regression Description 
+- Writing pre-proccessing functions 
+	- Outliers 
+	- Smoothing
 - Creating a meaningful design matrix for linear regression 
-   		- including size of gain,loss, and a convolved regressor
-	- Applying a linear model on each voxel 
-	- incorporating *every* subject and *every* run (by averaging)
-	- Plotting 
-	- Final Goal: Use plots of beta coefficients to find areas of the brain sensitive to loss and gains
-		- Are they the same? Are they oppisites?
+   	- including size of gain,loss, and a convolved regressor
+- Applying a linear model on each voxel
+- incorporating *every* subject and *every* run (by averaging)
+- Plotting 
+- Final Goal: Use plots of beta coefficients to find areas of the brain sensitive to loss and gains
+	- Are they the same? Are they oppisites?
+
+## Pre-Proccessing  
+- Used RMS vector method for removing outlying volumes before analysis 
+	- some subjects/runs had 0 outlying volumes while some had as much as 40+
+- Used Gaussian Filter by 2 SD's in all 3 spatial dimensions 
+
+## sub001/run001	
+![Outlying volumes subject001/run001](image/sub001_run001.png)
+
+## sub009/run003
+![Outlying volumes subject001/run001](image/sub009_run003.png)
+
+## Created a design matrix for regression
+- Created 4 by 240 (number of volumes) design matrix for each subject that had columns for loss, gain, and a convolved regressor 
+
+> Regressors of interest were created by convolving a delta function representing trial onset times with a
+canonical (double-gamma) hemodynamic response function.
 
 
+## Applying the model and aggregating data 
 
-## Basics
+- Aggregation 
+	- Instead of observing only 1 subject, we applied our linear model to every:
+		- Run (averaged betas for every run for each subject)
+		- Subject (averaged betas for every subject in the study)
+	- Result: "average" volumes for gain and loss coefficients for analysis 
+- Back to our question: Which parts of the brain are most sensitive to gains and losses? Are they the same 
 
-- downloaded data
-    - created a `bash` script included in `Makefile`
-- convolution
-    - gamma for hemodynamic
-    - non-constant repetition time for neural model
-- regression
-- RMS
 
-## Example Plot
+	
 
-![Middle slice of $\hat{\beta}_1$](image/beta1_middle_slice.png)
+# Brain Images
 
-# Plan
+## Before Smoothing
 
-## Statistical Analyses
+![Middle Slice for Gain Coefficient](image/middle_slice_gain.png)
 
-- linear regression
-- multi-pattern voxel analysis
+## Before Smoothing
 
-## Regression
+![Middle Slice for Loss Coefficient](image/middle_slice_loss.png)
 
-![Correspondence Between Neural
-and Behavioral Loss Aversion](image/neural-behavioral-loss-aversion.png)
+
+## After Smoothing 
+
+![Middle Slice for Gain Coefficient](image/SD_2_Gain.png)
+
+## After Smoothing 
+
+![Middle Slice for Loss Coefficient](image/SD_2_loss.png)
+
+# Multi-Pattern Voxel Analysis
+
 
 ## Multi-Pattern Voxel Analysis
 
-Used for estimating the whole brain.
+- "searchlight"  process runs the classification algorithm for (almost) all cubes across the entire brain.
+	- Used find regions of interest (ROI) in the brain contain the signals we're interested in
+- Cross-validation is used for classification 
+	- also known as, "Leave Block Out." 
+- Once we have our classification accuracy scores, we assign those to the cube centers.
 
-Norman, Polyn, Detre, and Haxby (2006)
 
-## Tools
 
-- NumPy
-- Nibabel
-- Statsmodels
-- Scikit-Learn
-- Nilearn
-- PyMVPA
-- Matplotlib
-- Seaborn
 
-# Process
+## Goal of MVPA
 
-## Most Difficult Part
+> If this performance of the classifier is significantly above chance, one concludes that the BOLD responses contain information about the classified states, and infers that the brain area where the signals originated is somehow involved in the neural representation of these states" (Kai Schreiber and Bart Krekelberg).
 
-- defining and scoping an analysis plan
-    - data approaches
-    - analyses methods
-- Git workflow
-    - coordination
+# MVPA plots
+
+## MVPA
+
+![MVPA](image/mvpa.png)
+
+## MVPA
+
+![MVPA](image/slice4.png)
