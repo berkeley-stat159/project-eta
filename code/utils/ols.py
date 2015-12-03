@@ -76,6 +76,24 @@ def average_betas(betas_2d):
 	loss_average = np.mean(betas_2d[1::2], axis=0)
 	return np.array((gain_average, loss_average))
 
+def beta_2d_to_4d(betas_2d):
+	betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
+	return betas_4d
+
+def betas_middle_slice_graph(betas_4d):
+	""" Plot betas for the middle slice of brain
+	"""
+	plt.imshow(betas_4d[:, :, 16, 0], interpolation='nearest', cmap='gray')
+	plt.title('Middle Slice Beta(Gain)')
+	plt.colorbar()
+	plt.savefig('middle_slice_gain.png')
+	plt.close()
+	plt.imshow(betas_4d[:, :, 16, 1], interpolation='nearest', cmap='gray')
+	plt.title('Middle Slice Beta(Loss)')
+	plt.colorbar()
+	plt.savefig('middle_slice_loss.png')
+	plt.close
+
 
 if __name__ == '__main__':
     import doctest
