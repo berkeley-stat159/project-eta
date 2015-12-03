@@ -91,6 +91,16 @@ canonical (double-gamma) hemodynamic response function.
 
 ![Middle Slice for Loss Coefficient](image/SD_2_loss.png)
 
+## Absolute values 
+
+![Middle Slice for Gain Coefficient](image/middle_slice_gain_abs.png)
+
+
+## Absolute values 
+
+![Middle Slice for Loss Coefficient](image/middle_slice_loss_abs.png)
+
+
 # Multi-Pattern Voxel Analysis
 
 
