@@ -1,6 +1,6 @@
 % Analysis Report
 % Jon Miguel Jara, Juan Shishido, Paul Wu, Wendy Xu
-% November 12, 2015
+% December 3rd, 2015
 
 # Introduction
 
@@ -72,41 +72,49 @@ canonical (double-gamma) hemodynamic response function.
 
 	
 
-# Plan
+# Brain Images
 
-## Statistical Analyses
+## Before Smoothing
 
-\includegraphics[width=<X>\textwidth]{<SD_2_Gain.ong>}%
-\includegraphics[width=<1-X>\textwidth]{<SD_2_loss.png>}
+![Middle Slice for Gain Coefficient](image/middle_slice_gain.png)
 
-## Regression
+## Before Smoothing
 
-![Correspondence Between Neural
-and Behavioral Loss Aversion](image/neural-behavioral-loss-aversion.png)
+![Middle Slice for Loss Coefficient](image/middle_slice_loss.png)
+
+
+## After Smoothing 
+
+![Middle Slice for Gain Coefficient](image/SD_2_Gain.png)
+
+## After Smoothing 
+
+![Middle Slice for Loss Coefficient](image/SD_2_loss.png)
+
+# Multi-Pattern Voxel Analysis
+
 
 ## Multi-Pattern Voxel Analysis
 
-Used for estimating the whole brain.
+- "searchlight"  process runs the classification algorithm for (almost) all cubes across the entire brain.
+	- Used find regions of interest (ROI) in the brain contain the signals we're interested in
+- Cross-validation is used for classification 
+	- also known as, "Leave Block Out." 
+- Once we have our classification accuracy scores, we assign those to the cube centers.
 
-Norman, Polyn, Detre, and Haxby (2006)
 
-## Tools
 
-- NumPy
-- Nibabel
-- Statsmodels
-- Scikit-Learn
-- Nilearn
-- PyMVPA
-- Matplotlib
-- Seaborn
 
-# Process
+## Goal of MVPA
 
-## Most Difficult Part
+> If this performance of the classifier is significantly above chance, one concludes that the BOLD responses contain information about the classified states, and infers that the brain area where the signals originated is somehow involved in the neural representation of these states" (Kai Schreiber and Bart Krekelberg).
 
-- defining and scoping an analysis plan
-    - data approaches
-    - analyses methods
-- Git workflow
-    - coordination
+# MVPA plots
+
+## MVPA
+
+![MVPA](image/mvpa.png)
+
+## MVPA
+
+![MVPA](image/slice4.png)
