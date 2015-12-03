@@ -37,14 +37,12 @@ def apply_ols_to_subject(total_s, total_r):
 				gain_loss_betas_2d = np.concatenate((gain_loss_betas_2d, betas), axis=0)
 	return gain_loss_betas_2d
 
-def average_betas(betas):
+def average_betas(betas_2d):
+	gain_average = np.mean(betas_2d[::2], axis=1)
+	loss_average = np.mean(betas_2d[1::2], axis=1)
+	return np.concatenate((gain_average, loss_average))
 
-	rootdir = '../data/ds005'
-	sub_lst = ['sub00' + str(i) for i in range(17)[1:]]
-	run_lst = ['task001_run00' + str(1) for i in range(4)[1:]]
-	for sub in sub_lst: 
-		for run in run_lst:
-			behave = pd.read_csv(join(rootdir, sub, 'behav', run, "behavdata.txt"), delim_whitespace=True)
+
 
 
 
