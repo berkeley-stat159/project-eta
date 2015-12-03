@@ -28,19 +28,20 @@ def apply_ols_to_subject(total_s, total_r):
 	for sub in range(total_s+1)[1:]:
 		for run in range(total_r+1)[1:]:
 			data = get_image(run, sub).get_data()
-			behave = get_behav(run, sub)
+			behavdata = get_behav(sub, run)
 			design = build_design(data, behavdata)
 			if sub == 1 and run == 1:
 				gain_loss_betas_2d = regression_fit(data, design)[2:,:]
 			else: 
 				betas = regression_fit(data, design)[2:,:]
 				gain_loss_betas_2d = np.concatenate((gain_loss_betas_2d, betas), axis=0)
+	
 	return gain_loss_betas_2d
 
 def average_betas(betas_2d):
-	gain_average = np.mean(betas_2d[::2], axis=1)
-	loss_average = np.mean(betas_2d[1::2], axis=1)
-	return np.concatenate((gain_average, loss_average))
+	gain_average = np.mean(betas_2d[::2], axis=0)
+	loss_average = np.mean(betas_2d[1::2], axis=0)
+	return np.array(gain_average, loss_average)
 
 
 
