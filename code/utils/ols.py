@@ -32,13 +32,10 @@ def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):
 	"""
 	for sub in range(total_s+1)[1:]:
 		for run in range(total_r+1)[1:]:
-			print('sub:',sub,'run',run)
 			data = get_image(run, sub).get_data()
 			if r_outliers == True:
 				data = remove_outliers(data)
-				print(data.shape[-1])
 			if smooth == True:
-				print("SMOOTH BITCH")
 				data = smooth_data(data, 2)
 			behavdata = get_behav(sub, run)
 			design = build_design(data, behavdata)
