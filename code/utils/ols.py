@@ -23,7 +23,10 @@ def apply_ols_to_subject(total_s, total_r):
 	-------
 	>>> total_s = 16
 	>>> total_r = 3
-	>>> 
+	>>> betas_2d = apply_ols_to_subject(total_s, total_r)
+	>>> betas_2d.shape
+	(96, 139264)
+
 	"""
 	for sub in range(total_s+1)[1:]:
 		for run in range(total_r+1)[1:]:
@@ -39,11 +42,34 @@ def apply_ols_to_subject(total_s, total_r):
 	return gain_loss_betas_2d
 
 def average_betas(betas_2d):
+	"""Averaging betas over all subjects and runs
 
+	Parameters
+	----------
+	betas_2d : a m x n numpy array, where m is the total number of runs for all subjects
+	and n is the total number of voxels
+
+	Returns
+	-------
+	a 2 x n numpy array, containing the averaged beta(gain) and beta(loss) for each voxel
+
+	Example
+	-------
+	>>> total_s = 16
+	>>> total_r = 3
+	>>> betas_2d = apply_ols_to_subject(total_s, total_r)
+	>>> betas_avg = average_betas(betas_2d)
+	>>> betas_avg.shape
+	(2, 139264)
+
+	"""
 	gain_average = np.mean(betas_2d[::2], axis=0)
 	loss_average = np.mean(betas_2d[1::2], axis=0)
 	return np.array((gain_average, loss_average))
 
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
 
 
 
