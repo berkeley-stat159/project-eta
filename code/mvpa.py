@@ -117,8 +117,6 @@ def classification(s, TR, clf, target, rad=1):
         or `gain_ind`.
     rad : int
         Radius value for `sphere`
-    SD : float
-        The Standard deviation for Gaussian smoothing
 
     Returns
     -------
