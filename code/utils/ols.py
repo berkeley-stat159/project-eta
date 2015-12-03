@@ -39,9 +39,10 @@ def apply_ols_to_subject(total_s, total_r):
 	return gain_loss_betas_2d
 
 def average_betas(betas_2d):
+
 	gain_average = np.mean(betas_2d[::2], axis=0)
 	loss_average = np.mean(betas_2d[1::2], axis=0)
-	return np.array(gain_average, loss_average)
+	return np.array((gain_average, loss_average))
 
 
 
