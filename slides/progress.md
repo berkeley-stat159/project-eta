@@ -1,5 +1,5 @@
-% Project Eta Progress Report
-% Jon Jara, Will Sanderson, Juan Shishido, Paul Wu, Wendy Xu
+% Analysis Report
+% Jon Jara, Juan Shishido, Paul Wu, Wendy Xu
 % November 12, 2015
 
 # Introduction
@@ -18,19 +18,28 @@ losing money.
 
 ## The Data
 
-- from OpenFMRI.org
-    - `ds005`
-- 16 subjects
-- 3 conditions per subject
+- 16 subjects are presented with a gamble with gain and loss values and asked whether they will take the gamble or not. 
+- Subject has behavorial data that corresponds with each gamble + a binary varaible indicating whether the took the gamble or not. 
+- Each subject also has a bold.nii with an fMRI image along time courses while the experiment was being conducted 
+	- Challenge: combine the behvaorial data (with gain and loss values) and the fMRI image data for modeling purposes. 
 
-## The Method
+## methods of Analysis
 
-- iteratively weighted least squares
-    - used to reduce outliers
-- logistic regression
-    - gain and loss
+- Linear Regression
+	
+- MVPA (Multi-voxel pattern analysis)
 
-# Initial Work
+
+## Linear Regression Description 
+- Creating a meaningful design matrix for linear regression 
+   		- including size of gain,loss, and a convolved regressor
+	- Applying a linear model on each voxel 
+	- incorporating *every* subject and *every* run (by averaging)
+	- Plotting 
+	- Final Goal: Use plots of beta coefficients to find areas of the brain sensitive to loss and gains
+		- Are they the same? Are they oppisites?
+
+
 
 ## Basics
 

@@ -1,18 +1,19 @@
-import utils.outliers 
-
+from utils.outliers import *
+from utils.load_data import *
+from utils.diagnostics import *
 
 
 #Plots
 
 #subject 1 fMRI data 
-data = get_image(1,1).get_data()
+data = get_image(3,9).get_data()
 std = vol_std(data)
 plt.plot(std)
 
 
 
-outliers = diagnostics.iqr_outliers(std)[0]
-ranges = diagnostics.iqr_outliers(std)[1]
+outliers = iqr_outliers(std)[0]
+ranges = iqr_outliers(std)[1]
 
 plt.axhline(y = ranges[0], linestyle="--", color = "g")
 plt.axhline(y = ranges[1], linestyle="--", color = "g")
