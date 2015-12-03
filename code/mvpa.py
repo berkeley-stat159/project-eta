@@ -100,7 +100,7 @@ def make_y(yi, yj):
     y = np.append(yi, yj)
     return y
 
-def classification(s, TR, clf, target):
+def classification(s, TR, clf, target, rad=1):
     """Classification using `clf` of 'active' states for subject `s`
     across all runs. Using Leave-Block-Out cross-validation (LBO-CV).
 
@@ -115,6 +115,10 @@ def classification(s, TR, clf, target):
     target : str
         A column in the `behavdata.txt` output. Can only be `respcat`,
         or `gain_ind`.
+    rad : int
+        Radius value for `sphere`
+    SD : float
+        The Standard deviation for Gaussian smoothing
 
     Returns
     -------
@@ -126,7 +130,7 @@ def classification(s, TR, clf, target):
 
     # laod data
     img1, img2, img3 = n_load(get_image, [1, 2, 3], {'s' : s})
-    data1, data2, data3 = tuple([i.get_data() for i in [img1, img2, img2]])
+    data1, data2, data3 = tuple([i.get_data() for i in [img1, img2, img3]])
     bh1, bh2, bh3 = n_load(get_behav, [1, 2, 3], {'s' : s})
 
     # time courses
@@ -155,7 +159,8 @@ def classification(s, TR, clf, target):
     # for each non-zero index, classify on target with LBO-CV
     # store the baseline (majority class) and accuracy
     for i, c in enumerate(nz.center):
-        X1, X2, X3 = n_load(sphere, [data1, data2, data3], {'c' : c})
+        X1, X2, X3 = n_load(sphere, [data1, data2, data3],
+                            {'c' : c, 'r' : rad})
         X1 = shape_X(X1, n_trs, tc1)
         X2 = shape_X(X2, n_trs, tc2)
         X3 = shape_X(X3, n_trs, tc3)
