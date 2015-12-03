@@ -60,8 +60,8 @@ def build_design(data,behavdata):
 
   Example
   -------
-  >>> data = get_img(1,1).get_data
-  >>> behavdata = get_data(1,1)
+  >>> data = get_image(1,1).get_data()
+  >>> behavdata = get_behav(1,1)
   >>> build_design(data,behavdata).shape 
   (240,4)
   """ 
@@ -108,8 +108,8 @@ def regression_fit(data, design):
 
   Example
   -------
-  >>> data = get_img(1,1).get_data
-  >>> behavdata = get_data(1,1)
+  >>> data = get_image(1,1).get_data()
+  >>> behavdata = get_behav(1,1)
   >>> design  = build_design(data,behavdata)
   >>> regression_fit(data, design).shape 
   (64, 64, 34, 4)
@@ -151,9 +151,8 @@ def regression_fit(data, design):
 
   """ 
   data_2d = np.reshape(data, (-1, data.shape[-1]))
-  betas = npl.pinv(design).dot(data_2d.T)
-  betas = np.reshape(betas.T, data.shape[:-1] + (-1,))
-  return betas 
+  betas_2d = npl.pinv(design).dot(data_2d.T)
+  return betas_2d
 
 
 if __name__ == '__main__':
