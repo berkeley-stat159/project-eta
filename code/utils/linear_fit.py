@@ -80,15 +80,22 @@ def build_design(data,behavdata):
         gain_loss[i,0] = gains[j]
         gain_loss[i, 1] = losses[j]
         j = j + 1
-  #building last column of the design matrix      
+  #building last column of the design matrix   
+  gains = gain_loss[:, 0]
+  losses = gain_loss[:, 1]   
   hrf_at_trs = hrf(tr_times)
-  convolved = np.convolve(neural_prediction, hrf_at_trs)
+  convolved1 = np.convolve(neural_prediction, hrf_at_trs)
+  convolved2 = np.convolve(gains, hrf_at_trs)
+  convolved3 = np.convolve(losses, hrf_at_trs)
   n_to_remove = len(hrf_at_trs) - 1
-  convolved = convolved[:-n_to_remove]
+  convolved1 = convolved1[:-n_to_remove]
+  convolved2 = convolved2[:-n_to_remove]
+  convolved3 = convolved3[:-n_to_remove]
   #final steps of design
   design = np.ones((len(convolved), 4))
-  design[:, 1] = convolved
-  design[:, 2:] = gain_loss
+  design[:, 1] = convolved1
+  design[:, 2] = convolved2
+  design[:, 3] = convolved3
   return design
 
 
