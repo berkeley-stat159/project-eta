@@ -92,7 +92,7 @@ def build_design(data,behavdata):
   convolved2 = convolved2[:-n_to_remove]
   convolved3 = convolved3[:-n_to_remove]
   #final steps of design
-  design = np.ones((len(convolved), 4))
+  design = np.ones((len(convolved1), 4))
   design[:, 1] = convolved1
   design[:, 2] = convolved2
   design[:, 3] = convolved3
