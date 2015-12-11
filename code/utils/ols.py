@@ -1,11 +1,13 @@
 import numpy as np 
 from utils.linear_fit import *
+from utils.outliers import remove_outliers
+from utils.smoothing import *
 import pandas as pd 
 import pylab as pl 
 import os
 from os.path import join, getsize
 
-def apply_ols_to_subject(total_s, total_r):	
+def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):	
 	"""Apply OLS model to all runs of all subjects in the ds005 data folder
 
 	Parameters
@@ -31,6 +33,10 @@ def apply_ols_to_subject(total_s, total_r):
 	for sub in range(total_s+1)[1:]:
 		for run in range(total_r+1)[1:]:
 			data = get_image(run, sub).get_data()
+			if r_outliers == True:
+				data = remove_outliers(data)
+			if smooth == True:
+				data = smooth_data(data, 2)
 			behavdata = get_behav(sub, run)
 			design = build_design(data, behavdata)
 			if sub == 1 and run == 1:
