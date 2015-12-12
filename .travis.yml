@@ -25,6 +25,9 @@ install:
     pip install coveralls;
     fi
 
+before_script: 
+  - export PYTHONPATH=$PYTHONPATH:$PWD/code/utils:$PWD/code
+
 script:
   - make coverage
 
