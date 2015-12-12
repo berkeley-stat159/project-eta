@@ -4,6 +4,6 @@ scipy==0.16.0
 matplotlib==1.4.3
 pandas==0.16.2
 nibabel==2.0.1
-scikit_learn==0.16.0
+scikit_learn==0.15.2
 
 
