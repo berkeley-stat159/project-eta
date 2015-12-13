@@ -40,9 +40,7 @@ def check_hashes(d):
     Returns
     -------
     True if the generated hashes match the ones in the
-    dictionary and False if not. 
-
-    
+    dictionary and False if not.    
     """
     all_good = True
     for k, v in d.items():
@@ -55,23 +53,14 @@ def check_hashes(d):
     return all_good
 
 
-def generateActualFileHashes():
-    """
-    Pulls actual hash values from the given text file in order to compare
-
-    """
+if __name__ == "__main__":
     hashes = {}
     with open('ds005_raw_checksums.txt', 'r') as checks:
-        l = checks.readlines()
-    for string in l:
-        split = string.split(' ')
-        hashes[split[2].rstrip('\n')] = split[0]
-
-    return hashes    
-
-if __name__ == "__main__":
-    d = generateActualFileHashes()
-    if check_hashes(d):
+        lines = checks.readlines()
+    for line in lines:
+        parts = line.split(' ')
+        hashes[parts[2].rstrip('\n')] = parts[0]
+    if check_hashes(hashes):
         print("All hashes are correct, data not corrupted.")
     else:
         print("One or more hashes are incorrect, data may be corrupted.")
