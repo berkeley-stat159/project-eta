@@ -60,7 +60,4 @@ if __name__ == "__main__":
     for line in lines:
         parts = line.split(' ')
         hashes[parts[2].rstrip('\n')] = parts[0]
-    if check_hashes(hashes):
-        print("All hashes are correct, data not corrupted.")
-    else:
-        print("One or more hashes are incorrect, data may be corrupted.")
+    check_hashes(hashes)
