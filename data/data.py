@@ -53,7 +53,7 @@ def check_hashes(d):
     return all_good
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     hashes = {}
     with open('ds005_raw_checksums.txt', 'r') as checks:
         lines = checks.readlines()
