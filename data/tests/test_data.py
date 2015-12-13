@@ -15,6 +15,9 @@ def test_check_hashes():
         d = {fname: "4b82f8bf4df2bfb0e66ccaa7306fd024"}
         assert not data.check_hashes(d)
 
+def test_generateActualFileHashes():
+    assert len(data.generateActualFileHashes()) == 1087
+
 #deleted lines 
 #tf = tempfile.NamedTemporaryFile(delete=False)
 #fname = tf.name
