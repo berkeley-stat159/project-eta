@@ -13,9 +13,7 @@ def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):
 	Parameters
 	----------
 	total_s : total number of subjects
-
 	total_r : total number of runs for each subjects
-
 
 	Returns
 	-------
@@ -28,7 +26,7 @@ def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):
 	>>> betas_2d = apply_ols_to_subject(total_s, total_r)
 	>>> betas_2d.shape
 	(96, 139264)
-
+	
 	"""
 	for sub in range(total_s+1)[1:]:
 		for run in range(total_r+1)[1:]:
@@ -57,7 +55,7 @@ def average_betas(betas_2d):
 
 	Returns
 	-------
-	a 2 x n numpy array, containing the averaged beta(gain) and beta(loss) for each voxel
+	A 2 x n numpy array, containing the averaged beta(gain) and beta(loss) for each voxel
 
 	Example
 	-------
@@ -74,11 +72,42 @@ def average_betas(betas_2d):
 	return np.array((gain_average, loss_average))
 
 def beta_2d_to_4d(betas_2d):
+    """Convert the model coefficients from 2-dimensional to 4-dimensional
+
+    Parameters
+    ----------
+    betas_2d : an m x n numpy array, where m is the total number of runs for all subjects
+	and n is the total number of voxels
+
+	Returns
+	-------
+	An A x B x C x D matrix, where A x B x C is the same as the first 3 dimensions
+	of the fMRI data and D is the number of coefficients in the model.
+
+	Example
+	-------
+	>>> total_s = 16
+	>>> total_r = 3
+	>>> betas_2d = apply_ols_to_subject(total_s, total_r)
+	>>> betas_4d = beta_2d_to_4d(betas_2d)
+	>>> betas_4d.shape
+	(64, 64, 34, 4) 
+
+    """
 	betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
 	return betas_4d
 
 def betas_middle_slice_graph(betas_4d):
-	""" Plot betas for the middle slice of brain
+	"""Plot betas for the middle slice of brain
+
+	Parameters
+	----------
+	betas_4d : an A x B x C x D matrix, where A x B x C is the same as the first 3 dimensions
+	of the fMRI data and D is the number of coefficients in the model.
+
+	Returns
+	-------
+	Saved plots of averaged coefficients (gain and loss) for the middle slice of the brain
 	"""
 	plt.imshow(betas_4d[:, :, 16, 0], interpolation='nearest', cmap='gray')
 	plt.title('Middle Slice Beta(Gain)')
@@ -89,7 +118,7 @@ def betas_middle_slice_graph(betas_4d):
 	plt.title('Middle Slice Beta(Loss)')
 	plt.colorbar()
 	plt.savefig('middle_slice_loss.png')
-	plt.close
+	plt.close()
 
 
 if __name__ == '__main__':
