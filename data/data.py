@@ -2,6 +2,8 @@ from __future__ import print_function, division
 
 import hashlib
 import os
+import pdb
+import json
 
 
 def generate_file_md5(filename, blocksize=2**20):
@@ -27,6 +29,13 @@ def generate_file_md5(filename, blocksize=2**20):
             m.update(buf)
     return m.hexdigest()
 
+def get_hash_for_all(dir):
+    hashes = dict()
+    for root, dirs, files in os.walk(dir):
+        for f in files:
+            file_path = os.path.join(root, f)
+            hashes[file_path] = generate_file_md5(file_path)
+    return hashes
 
 def check_hashes(d):
     """Check whether the generated hashes match the
@@ -55,23 +64,22 @@ def check_hashes(d):
     return all_good
 
 
-def generateActualFileHashes():
+def generateActualFileHashes(dir):
     """
     Pulls actual hash values from the given text file in order to compare
 
     """
     hashes = {}
-    with open('ds005_raw_checksums.txt', 'r') as checks:
-        l = checks.readlines()
-    for string in l:
-        split = string.split(' ')
-        hashes[split[2].rstrip('\n')] = split[0]
-
+    for root, dirs, files in os.walk(dir):
+        for f in files:
+            file_path = os.path.join(root, f)
+            hashes[file_path] = generate_file_md5(file_path)
     return hashes    
 
 if __name__ == "__main__":
-    d = generateActualFileHashes()
-    if check_hashes(d):
-        print("All hashes are correct, data not corrupted.")
-    else:
-        print("One or more hashes are incorrect, data may be corrupted.")
+    hashes = get_hash_for_all('ds005')
+    with open('ds005_hashes.json', 'w') as out_file:
+        json.dump(hashes, out)
+    with open('ds005_hashes.json', 'r') as in_file:
+        dic = json.load(in_file)
+    check_hashes(dic)
