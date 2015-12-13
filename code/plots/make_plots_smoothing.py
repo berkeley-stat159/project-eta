@@ -15,6 +15,7 @@ avg_before = beta_2d_to_4d(betas_2d)
 
 
 
+
 plt.imshow(avg_before[:, :, 16, 0], interpolation='nearest', cmap='gray')
 plt.title('Middle Slice Beta(Gain) Before smoothing')
 

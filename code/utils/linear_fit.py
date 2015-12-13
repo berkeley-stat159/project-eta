@@ -91,11 +91,16 @@ def build_design(data,behavdata):
   convolved1 = convolved1[:-n_to_remove]
   convolved2 = convolved2[:-n_to_remove]
   convolved3 = convolved3[:-n_to_remove]
+  linear_drift = np.linspace(-1, 1, n_vols)
+  quadratic_drift = linear_drift ** 2
+  quadratic_drift -= np.mean(quadratic_drift)
   #final steps of design
-  design = np.ones((len(convolved1), 4))
+  design = np.ones((len(convolved1), 6))
   design[:, 1] = convolved1
   design[:, 2] = convolved2
   design[:, 3] = convolved3
+  design[:, 4] = linear_drift
+  design[:, 5]  = quadratic_drift
   return design
 
 
