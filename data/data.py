@@ -77,11 +77,6 @@ def generateActualFileHashes(dir):
     return hashes    
 
 if __name__ == "__main__":
-    """
-    hashes = get_hash_for_all('ds005')
-    with open('ds005_hashes.json', 'w') as out_file:
-        json.dump(hashes, out_file)
-    """
     with open('ds005_hashes.json', 'r') as in_file:
         dic = json.load(in_file)
     check_hashes(dic)
