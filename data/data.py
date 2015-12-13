@@ -68,6 +68,14 @@ def generateActualFileHashes(dir):
     """
     Pulls actual hash values from the given text file in order to compare
 
+    Parameters
+    ----------
+    dir: data directory
+
+    Returns
+    -------
+    Hashes of all files in the directory
+
     """
     hashes = {}
     for root, dirs, files in os.walk(dir):
@@ -77,6 +85,7 @@ def generateActualFileHashes(dir):
     return hashes    
 
 if __name__ == "__main__":
+    # Check the ds005 data
     with open('ds005_hashes.json', 'r') as in_file:
         dic = json.load(in_file)
     check_hashes(dic)
