@@ -23,6 +23,8 @@ def grid_plot(betas_4d, gain_or_loss):
 
 grid_plot(betas_4d, 'loss')
 plt.savefig('loss_fit.png')
+plt.close()
 
 grid_plot(betas_4d, 'gain')
 plt.savefig('beta_fit.png')
+plt.close()

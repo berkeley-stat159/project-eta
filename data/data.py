@@ -11,7 +11,7 @@ def generate_file_md5(filename, blocksize=2**20):
     ----------
     filename: the name of the file for which a hash
     is to be generated
-
+    
     Returns
     -------
     m.hexdigest(): concatenated strings of the md5
@@ -31,12 +31,12 @@ def generate_file_md5(filename, blocksize=2**20):
 def check_hashes(d):
     """Check whether the generated hashes match the
     corresponding hases in a dictionary
-
+    
     Parameters
     ----------
     d: a dictionary with file names as keys and
     hashes as values
-
+    
     Returns
     -------
     True if the generated hashes match the ones in the
@@ -61,3 +61,4 @@ if __name__ == "__main__": # pragma: no cover
         parts = line.split(' ')
         hashes[parts[2].rstrip('\n')] = parts[0]
     check_hashes(hashes)
+    
