@@ -328,7 +328,7 @@ zero.
 For each subject and each run, the data include 240 time slices. We don't use
 all of these for classification. Rather, we restrict the samples (rows) to
 those where the time course is equal to one. In other words, the slices where a
-gamble occurred.
+gamble occurred. ABout 85 of the 240 time slices corresponded to gambles.
 
 ``Cross-validation'' is a model validation practice to help determine how well
 a model will generalize to new, unseen data. It can help avoid the problem of
@@ -348,6 +348,28 @@ chance, one concludes that the [blood-oxygen-level dependent] BOLD responses
 contain information about the classified states, and infers that the brain area
 where the signals originated is somehow involved in the neural representation
 of these states''\cite{schreiber2013statistical}.
+
+For classification, the MVPA function we wrote could take any Scikit-Learn
+classifier. We experimented with both logistic regression and the random forest
+classifier, but ended up choosing the former. Figure ~\ref{fig:mvpa} shows the
+MVPA results for a middle slice of subject 1.
+
+\begin{figure}[h]
+\caption{MVPA}
+\centering
+\includegraphics[width=0.5\textwidth]{mvpa.png}
+\label{fig:mvpa}
+\end{figure}
+
+It's not clear that we're detecting anything substantial. There are two main
+reasons for this. First, we used the time course data as the labels we
+predicted and these labels were not time-corrected. Second, the gain and loss
+gambles were not balanced in the data. That is, there were many more gain
+gambles than loss ones. This makes it difficult to interpret accuracy since
+predicing the major class for all samples was often a good strategy.
+
+We would have liked to have the opportunity to correct both of these issues. We
+believe the MVPA could be useful for this analysis.
 
 \subsection{Tools}
 
