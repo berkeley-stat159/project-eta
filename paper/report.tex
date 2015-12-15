@@ -27,7 +27,7 @@ decision-making. In particular, we draw upon the experiment of mixed gambles to
 investigate the relationship between neural and behavioral loss aversion. The
 relationships are observed by neural activities, measured as fMRI data, when
 subjects are exposed to gambles. Our project attempts to apply linear
-regression and multi-voxel pattern analyses to study loss-and-gain sensitivity
+regression and multi-voxel pattern analysis to study loss-and-gain sensitivity
 levels inside the brain.
 }
 
@@ -43,11 +43,11 @@ A significant portion of the paper is devoted to analyzing neural
 indicators of loss aversion and correlating that neural loss aversion to
 behavioral loss aversion. Test subjects are presented with gambles with equal
 chances of winning and losing and different amounts of money to gain and lose.
-These gamble offers and the subject’s decision of whether or not to accept the
-gamble are recorded, as well as the subject’s neural activities during the
-tasks. Behavioral risk aversion is measured through modeling the participant’s
+These gamble offers and the subject's decision of whether or not to accept the
+gamble are recorded, as well as the subject's neural activities during the
+tasks. Behavioral risk aversion is measured through modeling the participant's
 decision on the amount of proposed gain and loss of the gambles. On the other
-hand, neural risk aversion is measured through modeling the participant’s fMRI
+hand, neural risk aversion is measured through modeling the participant's fMRI
 data on the amount of proposed gain and loss of the gambles. The researchers
 find that behavioral loss aversion is statistically correlated with neural risk
 aversion. Another finding is that that some areas of the brain are particularly
@@ -67,10 +67,10 @@ where all the trials are modeled by orthogonal parametric regressors
 representing the size the potential gain, the size of the potential loss, and
 the Euclidean distance of the gain and loss combination from the diagonal of
 the gain/loss matrix. Both methods are carried out by time-series analysis
-using FILM (FMRIB’s Imporoved Linear Model).
+using FILM (FMRIB’s Improved Linear Model).
 
 We will reproduce this part of the paper using mostly linear regression and
-logistic models and evaluate our results against the paper’s results as well as
+logistic models and evaluate our results against the paper's results as well as
 using error analysis. We will also visualize our research results consistently
 with 2-D and possibly 3-D graphs. We would also like to experiment with
 multi-voxel pattern analysis on the fMRI data, which helps detect patterns of
@@ -85,7 +85,7 @@ total. The subjects consist of 9 females and 7 males. For each run, the subject
 is presented with a series of gambles with different combinations of gains and
 losses, each combination randomly drawn from a gain/loss matrix of size 16 x
 16. For the purpose of analysis, the data are collapsed into a 4 x 4 matrix.
-The subject’s fMRI data generated during the tasks is available for each run.
+The subject's fMRI data generated during the tasks is available for each run.
 
 The typical brain image consists of 64 x 64 voxels for each brain slice and 34
 slices in total. Repetition time (TR) is 2 seconds. Two volumes are discarded
@@ -197,7 +197,7 @@ of these are described in greater detail, below.
 \textbf{Behavioral Data}
 
 At first ,we attempted to find correlations between behavioral and neural risk
-aversion, but this might’ve been too ambitious of a goal. We simplified our
+aversion, but this might have been too ambitious of a goal. We simplified our
 goal by attempting to find areas of the brain that are sensitive to potential
 loss and potential gain. The result would lead to which parts of the brain are
 responsible for making risky decision. The first step is to fit a logistic
@@ -286,7 +286,7 @@ In the end, noise proved to be our biggest obstacle for analysis and prevent us
 from making any valid inferences from the brain images. We do have a rough idea
 of where the signals are potentially happening, but we cannot decipher between
 the signals due to noise and actual activity. A major component missing from
-the anlaysis is an investigation of the PCA of data to find artefacts that
+the analysis is an investigation of the PCA of data to find artefacts that
 could be causing noise. For example, the PCA analysis would most likely remove
 the right chunk of activity in slices 18 to 24 that is very likely to be an
 artifact. It is clear that more work is needed to remove as much noise as
@@ -295,7 +295,7 @@ possible from the estimated coefficients.
 \subsubsection{Secondary}
 
 As part of our secondary analysis, we are investigating whether it is possible
-to use Multi-Voxel Pattern Analysis (MVPA) on our data. Norman, Polyn, Detre,
+to use multi-voxel pattern analysis (MVPA) on our data. Norman, Polyn, Detre,
 and Haxby note that MVPA allows researchers to analyze \textit{vectors} of
 voxel activity values instead of individual ones\cite{norman}. There is greater
 sentivity with this focus on distributed patterns of activity, making it easier
@@ -328,7 +328,7 @@ zero.
 For each subject and each run, the data include 240 time slices. We don't use
 all of these for classification. Rather, we restrict the samples (rows) to
 those where the time course is equal to one. In other words, the slices where a
-gamble occurred. ABout 85 of the 240 time slices corresponded to gambles.
+gamble occurred. About 85 of the 240 time slices corresponded to gambles.
 
 ``Cross-validation'' is a model validation practice to help determine how well
 a model will generalize to new, unseen data. It can help avoid the problem of
@@ -366,7 +366,7 @@ reasons for this. First, we used the time course data as the labels we
 predicted and these labels were not time-corrected. Second, the gain and loss
 gambles were not balanced in the data. That is, there were many more gain
 gambles than loss ones. This makes it difficult to interpret accuracy since
-predicing the major class for all samples was often a good strategy.
+prediciting the major class for all samples was often a good strategy.
 
 We would have liked to have the opportunity to correct both of these issues. We
 believe the MVPA could be useful for this analysis.
