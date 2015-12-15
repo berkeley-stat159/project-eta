@@ -200,16 +200,18 @@ of these are described in greater detail, below.
 
 \subsubsection{Primary}
 
-The first task is to reproduce the results of the paper using our own tools.
-The goal is to find areas of the brain in which neural loss aversion is
-correlated to behavioral loss aversion. The result would lead to which parts of
-the brain are responsible for making risky decision. The first step is to fit a
-logistic regression on the behavioral data using a simple linear regression. We
-used a combination of pandas and statsmodels packages to fit a logistic
-regression model on the first subject and all the runs combined. Python modules
-were used rather than R packages in order to keep the whole project in the same
-language and for reproducibility. The logistic regression was modeled in this
-manner:
+\textbf{Behavioral Data}
+
+At first ,we attempted to find correlations between behavioral and neural risk
+aversion, but this might’ve been too ambitious of a goal. We simplified our
+goal by attempting to find areas of the brain that are sensitive to potential
+loss and potential gain. The result would lead to which parts of the brain are
+responsible for making risky decision. The first step is to fit a logistic
+regression on the behavioral data using a simple linear regression. We used a
+combination of pandas and Statsmodels to fit a logistic regression model on the
+first subject and all the runs combined. Python modules were used rather than R
+packages in order to keep the whole project in the same language and for
+reproducibility. The logistic regression was modeled in this manner:
 
 \[ logit(p) = \beta_0 + \beta_1 X_{gain} + \beta_2 X_{loss} + \epsilon \] 
 
@@ -217,45 +219,84 @@ With gain and loss values beings the 2 regressors in the regression. Subject 1
 had a gain to loss ratio of 2.33, which was inline with gain to loss ratio
 cited by other sources in the paper (around 2.0). The paper was not specific in
 how they dealt with multiple runs per subject but we decided that it would be
-statistically sound to combine the runs for all the patients. In addition, the
-paper conducted pre-processing steps like smoothing and motion correction that
-we still need to employ. 
+sound to average all the runs for each patient and then average all the
+subjects.
 
-The logistic regression provided results inline with the paper (and past
-``risk-averse'') studies and were in the end statistically significant,
-however, the main goal of neurological study is to observe how these results
-compare with neural signals and brain activity. This part of the analysis has
-proven to be less trivial than a simple logistic regression. The challenges
-stem mostly from working fMRI data in conjunction with the behavioral variables
-``gain'' and ``loss''. We have tried using simple linear regression at each
-voxel after convolving the fMRI data, but the results yielded blurry images of
-brain slices the general locations of brain activity. While these locations
-give a general idea of which parts of the brain are activated during runs of
-the experiment, the resulting regressions leaves us with hundreds of beta
-coefficients that represent activity without specifying whether the activity is
-due to negative loss response and positive gain response. Further research is
-needed to perform a similar conjunction analysis that was performed in the
-paper. If the complexity of separating the different types of signals is beyond
-the scope of our group, we will move on and use the simple regression model
-with only one parameter. There is worry that without conjunction analysis we
-will not see significant results like those found in the paper and it will be
-hard to compare risk aversions to specific loss/gain values if we can
-differentiate between the responses. Also, the paper specified specific regions
-of the brain with large magnitudes of gain and loss response. To simplify our
-analysis, we could restrict our study to whole brain analysis and see if we
-find any significant correlation, otherwise we will attempt to segment the same
-sections as the ones used in the original study. 
+\textbf{BOLD Data}
 
-After modeling the fMRI data and hopefully getting valuable coefficients for
-loss and gain responses, we will then have to use robust regression to model
-the values of these neural response coefficients and the behavioral
-coefficients. Robust regression was used in the paper as a way to decrease the
-likelihood of any outliers. We might try to simplify this method by using
-methods learned in class to remove outlier ourselves and then running a simple
-linear regression. In the end, we believe we can reproduce the results of the
-paper but we might need to simplify some of the methods, particularly in the
-process of quantifying neural risk aversion and segmenting risk-averse areas of
-the brain.
+Next was our analysis of the neural image data. The goal of this section is
+find parts of the brain that are most sensitive to potential gains and
+potential loss. After running our preprocessing scripts on all the image data,
+we fitted a linear model for every subject and every run. The design matrix for
+each linear fitted consisted for 240 rows for each time course with a column of
+1’s (for the intercept), the general task onset times, the size of gain, and
+the size of loss (all convolved). Also, linear drift and quadratic lift terms
+were added to reduce noise from movement. Figure ~\ref{fig:design-matrix}
+shows an example of design matrix for subject 1, run 1.
+
+\begin{figure}[h]
+\caption{Design Matrix}
+\centering
+\includegraphics[width=0.5\textwidth]{design-matrix.png}
+\label{fig:design-matrix}
+\end{figure}
+
+The paper did not specify how all the subjects and all the runs were
+collaborated for analysis but we decided to run the linear model for each run
+and each subject, average the coefficients for each run for each subject, then
+average the coefficients for each subjects. The result is an ``average brain''
+that combines the images for all subjects and runs that provide mean
+estimations for each coefficient in the regression. Figure ~\ref{fig:gain} and
+Figure ~\ref{fig:loss} show the gain and loss responses, respectively.
+
+\begin{figure}[h]
+\caption{Gain}
+\centering
+\includegraphics[width=0.5\textwidth]{gain.png}
+\label{fig:gain}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Loss}
+\centering
+\includegraphics[width=0.5\textwidth]{loss.png}
+\label{fig:loss}
+\end{figure}
+
+We plotted 16 central slices of the average brain to observe beta coefficient
+values and compare between gain or loss. Interestingly, the areas of activation
+tend to be around the same areas for beta and loss coefficients. Obvious issues
+are the ``edgeyness'' of the plots, in which the edges of the brain images are
+being activated but are more likely due to noise due to motion during scans.
+Also, the values of the coefficients show that the gain and loss regressors are
+similar in magnitude. However, before adding the linear and quadratic drift
+term, a gap between both magnitude and volume of brain activity is more
+apparent. Figure ~\ref{fig:gain-before-drift} and Figure
+~\ref{fig:loss-before-drift} show the gain and loss responses before drift.
+
+\begin{figure}[h]
+\caption{Gain Before Drift}
+\centering
+\includegraphics[width=0.5\textwidth]{gain-before-drift.png}
+\label{fig:gain-before-drift}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Loss Before Drift}
+\centering
+\includegraphics[width=0.5\textwidth]{loss-before-drift.png}
+\label{fig:loss-before-drift}
+\end{figure}
+
+In the end, noise proved to be our biggest obstacle for analysis and prevent us
+from making any valid inferences from the brain images. We do have a rough idea
+of where the signals are potentially happening, but we cannot decipher between
+the signals due to noise and actual activity. A major component missing from
+the anlaysis is an investigation of the PCA of data to find artefacts that
+could be causing noise. For example, the PCA analysis would most likely remove
+the right chunk of activity in slices 18 to 24 that is very likely to be an
+artifact. It is clear that more work is needed to remove as much noise as
+possible from the estimated coefficients.
 
 \subsubsection{Secondary}
 
