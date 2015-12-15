@@ -144,6 +144,17 @@ corrects for both motion and slice timing.
 
 \subsection{Analysis}
 
+In their primary analysis, the researchers build statistical models separately
+for each imaging run and create regressors by convolving a delta function
+representing trial onset times with a canonical hemodynamic response function.
+Similarly, in our research, we will model each run independently and convolve
+predictors of interest with a gamma hemodynamic response. We will build linear
+regression models for each run using these convolved regressors and
+specifically look at the coefficients of those representing gains and losses.
+Then we will visualize the coefficients for different slices of the brain to
+discover patterns. We also plan on exploring multi-pattern voxel analysis. Both
+of these are described in greater detail, below.
+
 \subsubsection{Primary}
 
 The first task is to reproduce the results of the paper using our own tools.
