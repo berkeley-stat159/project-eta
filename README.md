@@ -9,7 +9,14 @@ Fall 2015 group project
 
 Team Member: Jon Jara, Juan Shishido, Wendy Xu
 
-###What is this?
+### Make
+
+In the `data/` directory, you can `make data` to download and extract the data
+files and `make validate` to chech hashes.
+
+In the `report/` directory, `make` to create the report PDF.
+
+### What is this?
 
 Our group is working on the paper __The Neural Basis of Loss Aversion in
 Decision-Making Under Risk__, which investigates whether loss aversion reflects
@@ -24,7 +31,7 @@ study uses two modeling approaches for the primary whole-brain analyses---the
 parametric analysis and the matrix analysis. The paper can be found in
 [Project-eta](https://github.com/berkeley-stat159/project-eta).
 
-###What we plan to do?
+### What we plan to do?
 
 We plan to reproduce this study based on the whole-brain statistical analysis.
 We will look into the two modeling approaches that the authors used, and come
