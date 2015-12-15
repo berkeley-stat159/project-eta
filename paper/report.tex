@@ -155,6 +155,30 @@ show how images looked before and after smoothing).
 \label{fig:smoothing-after}
 \end{figure}
 
+\subsubsection{Outliers}
+
+The next step was to use  RMS of the BOLD fMRI signal to locate and remove
+outliers to further remove noise from the data. We found that the number of
+outlying  volumes varied greatly from subject to subject and from subject to
+run with some runs having as many as 100 volumes removed and as little as 0. We
+plotted RMS values with outliers marked with red markers (similar to what we
+did in homework 2). Figure ~\ref{fig:outliers-1-1} and Figure
+~\ref{fig:outliers-9-3} are two examples of how we identified outliers.
+
+\begin{figure}[h]
+\caption{Subject 1, Run 1}
+\centering
+\includegraphics[width=0.5\textwidth]{outliers-1-1.png}
+\label{fig:outliers-1-1}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Subject 9, Run 3}
+\centering
+\includegraphics[width=0.5\textwidth]{outliers-9-3.png}
+\label{fig:outliers-9-3}
+\end{figure}
+
 \subsubsection{Motion Correction}
 
 Another way in which we will attempt to increase the signal from our data is to
