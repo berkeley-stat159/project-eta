@@ -7,24 +7,42 @@ Status](https://coveralls.io/repos/berkeley-stat159/project-eta/badge.svg?branch
 
 Fall 2015 group project
 
-Team Member: Jon Jara, Will Sanderson, Juan Shishido, Paul Wu, Wendy Xu
+Team Member: Jon Jara, Juan Shishido, Wendy Xu
 
-###What is this?
+### Make
 
-Our group is working on the paper __The Neural Basis of Loss Aversion in Decision-Making Under Risk__, which investigates whether loss aversion reflects the engagement of distinct emotional processes when potential losses are considered and examines the neural systems that process decision utility. The paper can be found in [our project](https://github.com/berkeley-stat159/project-eta)
+In the `data/` directory, you can `make data` to download and extract the data
+files and `make validate` to chech hashes.
 
-The study has 16 subjects (eight males and eight females with an average age of 22). For each of them, three trials of the _mixed gambles task_ are performed and data sets of blood-oxygen-level-dependent are collected and contrasted. The study uses two modeling approaches for the primary whole-brain analyses-- the parametric analysis and the matrix analysis. The paper can be found in [Project-eta](https://github.com/berkeley-stat159/project-eta).
+In the `report/` directory, `make` to create the report PDF.
 
-###What we plan to do?
+### What is this?
 
-We plan to reproduce this study based on the whole-brain statistical analysis. We will look into the two modeling approaches that the authors used, and come up with our own approach based on what we have and what we can do.
+Our group is working on the paper __The Neural Basis of Loss Aversion in
+Decision-Making Under Risk__, which investigates whether loss aversion reflects
+the engagement of distinct emotional processes when potential losses are
+considered and examines the neural systems that process decision utility. The
+paper can be found in [our project](https://github.com/berkeley-stat159/project-eta)
 
-Here's a couple of things we are heading:
+The study has 16 subjects (eight males and eight females with an average age of
+22). For each of them, three trials of the _mixed gambles task_ are performed
+and data sets of blood-oxygen-level-dependent are collected and contrasted. The
+study uses two modeling approaches for the primary whole-brain analyses---the
+parametric analysis and the matrix analysis. The paper can be found in
+[Project-eta](https://github.com/berkeley-stat159/project-eta).
 
-1. Data cleaning, normalization.
+### What we plan to do?
 
-2. GLM.
+We plan to reproduce this study based on the whole-brain statistical analysis.
+We will look into the two modeling approaches that the authors used, and come
+up with our own approach based on what we have and what we can do.
 
-3. Correlate behavioral risk aversion vs neural risk aversion.
+Here are a few things we are doing:
+
+1. Data cleaning, normalization
+
+2. GLM
+
+3. Correlate behavioral risk aversion vs neural risk aversion
 
 4. Multi-voxel pattern analysis
