@@ -87,6 +87,10 @@ losses, each combination randomly drawn from a gain/loss matrix of size 16 x
 16. For the purpose of analysis, the data are collapsed into a 4 x 4 matrix.
 The subject’s fMRI data generated during the tasks is available for each run.
 
+The typical brain image consists of 64 x 64 voxels for each brain slice and 34
+slices in total. Repetition time (TR) is 2 seconds. Two volumes are discarded
+at the beginning of each run.
+
 \subsection{Acquiring}
 
 A primary goal of ours is to ensure that individuals who wish to replicate or
@@ -105,9 +109,11 @@ We are considering several preprocessing techniques to use on our data.
 
 \subsubsection{Smoothing}
 
-Smoothing is a process that averages data---in this case, voxels---with its
-neighbors. This is typically done using a Gaussian function. The selected width
-of the distribution determines how much the data are smoothed.
+After initial plots, we observed that the data was noisy. Smoothing in space
+reduces the noise by averaging data---in this case, voxels---with its
+neighbors, while preserving signal. This is typically done using a Gaussian
+function. The selected width of the distribution determines how much the data
+are smoothed.
 
 There are several benefits related to smoothing. Below, we list the ones that
 are relevant for our analysis.
@@ -126,6 +132,28 @@ We are also aware of the following disadvantages.
 
 Typically, for single-subject analyses, a width of 4 mm is used. This
 information came from the Brain Voyager website\cite{bvsmoothing}.
+
+The first step we took in pre-processing the blood-oxygen-level dependent
+(BOLD) image data was to smooth the BOLD data using a Gaussian filter by two
+standard deviations in all three spatial dimensions. Figure
+~\ref{fig:smoothing-before} and Figure ~\ref{fig:smoothing-after} show how
+smoothing vastly improves the interpretability of the single brain images (note
+that these images were not the final plots used in analysis, these are just to
+show how images looked before and after smoothing).
+
+\begin{figure}[h]
+\caption{Before Smoothing}
+\centering
+\includegraphics[width=0.5\textwidth]{smoothing-before.png}
+\label{fig:smoothing-before}
+\end{figure}
+
+\begin{figure}[h]
+\caption{After Smoothing}
+\centering
+\includegraphics[width=0.5\textwidth]{smoothing-after.png}
+\label{fig:smoothing-after}
+\end{figure}
 
 \subsubsection{Principle Component Analysis}
 
