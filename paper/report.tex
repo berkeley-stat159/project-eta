@@ -9,14 +9,8 @@
   Jara, Jon\\
   \texttt{jonmigueljara}
   \and
-  Sanderson, Will\\
-  \texttt{wtsanderson}
-  \and
   Shishido, Juan\\
   \texttt{juanshishido}
-  \and
-  Wu, Paul\\
-  \texttt{yuanyiwu}
   \and
   Xu, Wendy\\
   \texttt{berithsu}
@@ -27,7 +21,9 @@
 \begin{document}
 \maketitle
 
-\abstract{You should have a short abstract.}
+\abstract{
+
+}
 
 \section{Introduction}
 
@@ -196,9 +192,52 @@ sentivity with this focus on distributed patterns of activity, making it easier
 to detect differences between conditions\cite{bvmvpa}. Typically, linear
 classifiers, such as Gaussian Naive Bayes or linear support vector machines,
 are used in MVPA analyses\cite{norman}. The features correspond to the brain
-activity and the label to the cognitive state. MVPA also provides the ability
+activity and the labels to the cognitive state. MVPA also provides the ability
 to correlate subject-level classifier estimates across multiple
 trials\cite{norman}.
+
+MVPA uses groups of voxels to classify experimental conditions. In our case,
+these conditions are gain and loss gambles (or responses to those gambles).
+Groups of voxels are typically defined as ``spheres'' from some ``center''
+index. The set the default sphere radius to 1. However, it can be of any
+arbitrary size, so long as the \textit{diameter} is not larger than the
+smallest dimension of the image.
+
+As an example, a sphere with radius 1 will be made up of 27 voxels---9
+for each of the three vertical (\(z\)) slices. From the center voxel, the
+sphere is made up of the eight surrounding voxels on its plane as well as the
+9 corresponding voxels above and below it. While we call the group of voxels a
+``sphere,'' we are actually working with cubes.
+
+Because we may not know, a priori, what regions of interest (ROI) in the brain
+contain the signals we're interested in, we use a process called
+``searchlight'' that fits a classifier on (almost) every sphere across the
+entire brain, one at a time. We exclude spheres with center values equal to
+zero.
+
+For each subject and each run, the data include 240 time slices. We don't use
+all of these for classification. Rather, we restrict the samples (rows) to
+those where the time course is equal to one. In other words, the slices where a
+gamble occurred.
+
+``Cross-validation'' is a model validation practice to help determine how well
+a model will generalize to new, unseen data. It can help avoid the problem of
+``overfitting,'' which is the scenario where the model is only good at
+predicting the data is was trained (or fit) on. In other words, cases where a
+model is not generalizable. During this process, only part of the data is used
+to train the model, which is then used to predict the other part. This split is
+done randomly. In addition, because we have the access to the ground truth
+values, we are able to determine a prediction accuracy. For MVPA, the
+cross-validation approach is called ``leave block out.'' This uses groups of
+runs to classify other runs.
+
+Once we have our classification accuracy scores, we assign those to the sphere
+centers. While prediction accuracy does not necessarily tell us about
+activation, ``If this performance of the classifier is significantly above
+chance, one concludes that the [blood-oxygen-level dependent] BOLD responses
+contain information about the classified states, and infers that the brain area
+where the signals originated is somehow involved in the neural representation
+of these states''\cite{schreiber2013statistical}.
 
 \subsection{Tools}
 
@@ -206,11 +245,10 @@ We have identified several Python packages we will use for our analysis.
 
 \begin{itemize}
   \item{NumPy}
+  \item{pandas}
   \item{Nibabel}
   \item{Statsmodels}
   \item{Scikit-Learn}
-  \item{Nilearn}
-  \item{PyMVPA}
   \item{Matplotlib}
   \item{Seaborn}
 \end{itemize}
