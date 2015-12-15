@@ -48,17 +48,32 @@ gamble are recorded, as well as the subject’s neural activities during the
 tasks. Behavioral risk aversion is measured through modeling the participant’s
 decision on the amount of proposed gain and loss of the gambles. On the other
 hand, neural risk aversion is measured through modeling the participant’s fMRI
-data on the amount of proposed gain and loss of the gambles. By analyzing the
-correlations between the coefficients of these models, the authors find that
-some parts of the brain are particularly sensitive to loss and that neural
-activities in the loss sensitive areas are closely related to the extent to
-which a subject avoids risk in behavioral terms.
+data on the amount of proposed gain and loss of the gambles. The researchers
+find that behavioral loss aversion is statistically correlated with neural risk
+aversion. Another finding is that that some areas of the brain are particularly
+sensitive to both gains and losses, exhibiting increasing activity as potential
+gains increase and decreasing activity as potential losses increase. Neural
+activities in these areas can reasonably be used to predict behavioral loss
+aversion.
+
+The main approach used by the researchers is called the ``matrix analysis.''
+The gain/loss matrix, from where gambles are randomly drawn and displayed to
+the experiment subject, is collapsed from a 16 x 16 into a 4 x 4 matrix and
+trials for all subjects and runs are grouped according to this smaller matrix,
+resulting in 16 separate conditions. Separate estimation of the evoked response
+for each of these conditions enables the comparison between ``good'' versus
+``bad'' gambles. Another separate approach is the ``parametric analysis,''
+where all the trials are modeled by orthogonal parametric regressors
+representing the size the potential gain, the size of the potential loss, and
+the Euclidean distance of the gain and loss combination from the diagonal of
+the gain/loss matrix. Both methods are carried out by time-series analysis
+using FILM (FMRIB’s Imporoved Linear Model).
 
 We will reproduce this part of the paper using mostly linear regression and
 logistic models and evaluate our results against the paper’s results as well as
 using error analysis. We will also visualize our research results consistently
-with 2-D and possibly 3-D graphs. Besides, we would like to experiment with
-Multi-Voxel Pattern Analysis on the fMRI data, which helps detect patterns of
+with 2-D and possibly 3-D graphs. We would also like to experiment with
+multi-voxel pattern analysis on the fMRI data, which helps detect patterns of
 brain activity by jointly analyzing multiple voxels at the same time. 
 
 \section{Data}
