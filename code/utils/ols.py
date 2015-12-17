@@ -1,6 +1,7 @@
 import numpy as np 
 from utils.linear_fit import *
 from utils.outliers import remove_outliers
+from utils.load_data import get_behav
 from utils.smoothing import *
 import pandas as pd 
 import pylab as pl 
@@ -26,14 +27,17 @@ def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):
 	(96, 139264)
 	
 	"""
-	for sub in range(total_s+1)[1:]:
-		for run in range(total_r+1)[1:]:
-			data = get_image(r = run, s = sub).get_data()
+	#for sub in range(total_s+1)[1:]:
+		#for run in range(total_r+1)[1:]:
+	for sub in range(1,17):
+		for run in range(1,4):
+			data = get_image(run, sub).get_data()
 			if r_outliers == True:
 				data = remove_outliers(data)
 			if smooth == True:
 				data = smooth_data(data, 2)
-			behavdata = get_behav(r = run, s = sub)
+			behavdata = get_behav(run, sub)
+			print("run:", run, "sub:", sub)
 			design = build_design(data, behavdata)
 			if sub == 1 and run == 1:
 				gain_loss_betas_2d = regression_fit(data, design)[2:,:]
@@ -83,9 +87,9 @@ def beta_2d_to_4d(betas_2d):
 	>>> betas_4d = beta_2d_to_4d(betas_2d)
 	>>> betas_4d.shape
 	(64, 64, 34, 4) 
-	"""
-	betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
-	return betas_4d
+    """
+    betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
+    return betas_4d
 
 def betas_middle_slice_graph(betas_4d):
 	"""Plot betas for the middle slice of brain

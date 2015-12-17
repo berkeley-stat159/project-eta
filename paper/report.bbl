@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{norman}
+{\sc K.~A. Norman, S.~M. Polyn, G.~J. Detre, and J.~B. Haxby}, {\em Beyond
+  mind-reading: multi-voxel pattern analysis of fmri data}, Trends in Cognitive
+  Sciences, 10 (2006), pp.~424--430.
+
+\bibitem{tom}
+{\sc S.~M. Tom, C.~R. Fox, C.~Trepel, and R.~A. Poldrack}, {\em The neural
+  basis of loss aversion in decision-making under risk}, Science, 315 (2007),
+  pp.~515--518.
+
+\bibitem{viviani}
+{\sc R.~Viviani, G.~Gr\"{o}n, and M.~Spitzer}, {\em Functional principle
+  component analysis of fmri data}, Human Brain Mapping, 24 (2005),
+  pp.~109--129.
+
+\bibitem{bvmvpa}
+{\sc B.~Voyager}, {\em Multi-voxel pattern analysis (mvpa)}.
+
+\bibitem{bvsmoothing}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em Spatial smoothing}.
+
+\end{thebibliography}

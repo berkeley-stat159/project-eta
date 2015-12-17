@@ -7,7 +7,6 @@ import os
 from statsmodels.tools.sm_exceptions import PerfectSeparationError
 
 
-
 # logistic regresssion fit function 
 def apply_logistic(df):
 	#removing negative value 
@@ -40,7 +39,7 @@ def apply_logistic_all():
 fit_df = apply_logistic_all()
 
 #output final data frame 
-df.to_csv(r'logistic_fit', header=True, index=None, sep=' ', mode='a')
+fit_df.to_csv(r'logistic_fit', header=True, index=None, sep=' ', mode='a')
 
 
 """

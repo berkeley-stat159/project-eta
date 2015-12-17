@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: report.aux
+The style file: siam.bst
+Database file #1: report.bib
+Warning--entry type for "bvmvpa" isn't style-file defined
+--line 42 of file report.bib
+Warning--entry type for "bvsmoothing" isn't style-file defined
+--line 47 of file report.bib
+You've used 5 entries,
+            2030 wiz_defined-function locations,
+            524 strings with 4302 characters,
+and the built_in function-call counts, 1709 in all, are:
+= -- 158
+> -- 75
+< -- 0
++ -- 31
+- -- 25
+* -- 127
+:= -- 260
+add.period$ -- 5
+call.type$ -- 5
+change.case$ -- 28
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 74
+empty$ -- 131
+format.name$ -- 25
+if$ -- 371
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 9
+pop$ -- 28
+preamble$ -- 1
+purify$ -- 23
+quote$ -- 0
+skip$ -- 77
+stack$ -- 0
+substring$ -- 110
+swap$ -- 33
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 20
+warning$ -- 0
+while$ -- 15
+width$ -- 6
+write$ -- 41
+(There were 2 warnings)
