@@ -86,10 +86,10 @@ def beta_2d_to_4d(betas_2d):
 	>>> betas_2d = apply_ols_to_subject(total_s, total_r)
 	>>> betas_4d = beta_2d_to_4d(betas_2d)
 	>>> betas_4d.shape
-	(64, 64, 34, 4) 
-    """
-    betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
-    return betas_4d
+	(64, 64, 34, 4)
+	"""
+	betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
+	return betas_4d
 
 def betas_middle_slice_graph(betas_4d):
 	"""Plot betas for the middle slice of brain
