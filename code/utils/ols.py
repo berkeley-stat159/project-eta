@@ -10,12 +10,10 @@ from os.path import join, getsize
 
 def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):	
 	"""Apply OLS model to all runs of all subjects in the ds005 data folder
-
 	Parameters
 	----------
 	total_s : total number of subjects
 	total_r : total number of runs for each subjects
-
 	Returns
 	-------
 	Beta(loss) and Beta(gain) for each voxel stacked over all runs of all subjects
@@ -51,16 +49,13 @@ def apply_ols_to_subject(total_s, total_r, r_outliers = False, smooth = False):
 
 def average_betas(betas_2d):
 	"""Averaging betas over all subjects and runs
-
 	Parameters
 	----------
 	betas_2d : a m x n numpy array, where m is the total number of runs for all subjects
 	and n is the total number of voxels
-
 	Returns
 	-------
 	A 2 x n numpy array, containing the averaged beta(gain) and beta(loss) for each voxel
-
 	Example
 	-------
 	>>> total_s = 16
@@ -69,25 +64,21 @@ def average_betas(betas_2d):
 	>>> betas_avg = average_betas(betas_2d)
 	>>> betas_avg.shape
 	(2, 139264)
-
 	"""
 	gain_average = np.mean(betas_2d[::2], axis=0)
 	loss_average = np.mean(betas_2d[1::2], axis=0)
 	return np.array((gain_average, loss_average))
 
 def beta_2d_to_4d(betas_2d):
-    """Convert the model coefficients from 2-dimensional to 4-dimensional
-
-    Parameters
-    ----------
-    betas_2d : an m x n numpy array, where m is the total number of runs for all subjects
+	"""Convert the model coefficients from 2-dimensional to 4-dimensional
+	Parameters
+	----------
+	betas_2d : an m x n numpy array, where m is the total number of runs for all subjects
 	and n is the total number of voxels
-
 	Returns
 	-------
 	An A x B x C x D matrix, where A x B x C is the same as the first 3 dimensions
 	of the fMRI data and D is the number of coefficients in the model.
-
 	Example
 	-------
 	>>> total_s = 16
@@ -96,19 +87,16 @@ def beta_2d_to_4d(betas_2d):
 	>>> betas_4d = beta_2d_to_4d(betas_2d)
 	>>> betas_4d.shape
 	(64, 64, 34, 4) 
-
     """
     betas_4d = np.reshape(betas_2d.T, (64,64,34) + (-1,))
     return betas_4d
 
 def betas_middle_slice_graph(betas_4d):
 	"""Plot betas for the middle slice of brain
-
 	Parameters
 	----------
 	betas_4d : an A x B x C x D matrix, where A x B x C is the same as the first 3 dimensions
 	of the fMRI data and D is the number of coefficients in the model.
-
 	Returns
 	-------
 	Saved plots of averaged coefficients (gain and loss) for the middle slice of the brain
@@ -126,8 +114,9 @@ def betas_middle_slice_graph(betas_4d):
 
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+	import doctest
+	doctest.testmod()
+
 
 
 

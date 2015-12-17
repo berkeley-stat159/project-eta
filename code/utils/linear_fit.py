@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np  # the Python array package
 import pandas as pd
 import matplotlib.pyplot as plt  # the Python plotting package
@@ -63,7 +64,7 @@ def build_design(data,behavdata):
   >>> data = get_image(1,1).get_data()
   >>> behavdata = get_behav(1,1)
   >>> build_design(data,behavdata).shape 
-  (240,4)
+  (240,6)
   """ 
 
   gains = behavdata['gain']
@@ -87,22 +88,25 @@ def build_design(data,behavdata):
   convolved1 = np.convolve(neural_prediction, hrf_at_trs)
   convolved2 = np.convolve(gains, hrf_at_trs)
   convolved3 = np.convolve(losses, hrf_at_trs)
+  convolved = np.column_stack((convolved1, convolved2, convolved3))
   n_to_remove = len(hrf_at_trs) - 1
-  convolved1 = convolved1[:-n_to_remove]
-  convolved2 = convolved2[:-n_to_remove]
-  convolved3 = convolved3[:-n_to_remove]
+  std_convolved = np.zeros((convolved.shape[0]-n_to_remove,convolved.shape[1]))
+  design = np.ones((convolved.shape[0]-n_to_remove, 6))
+  # standardize the convolved regressors
+  for i in range(3):
+    conv = convolved[:-n_to_remove, i]
+    sd = np.std(conv)
+    avg = np.mean(conv)
+    std_convolved[:, i] = (conv - avg)
+  # add linear nad quadratic drifts
   linear_drift = np.linspace(-1, 1, n_vols)
   quadratic_drift = linear_drift ** 2
   quadratic_drift -= np.mean(quadratic_drift)
   #final steps of design
-  design = np.ones((len(convolved1), 6))
-  design[:, 1] = convolved1
-  design[:, 2] = convolved2
-  design[:, 3] = convolved3
+  design[:, 1:4] = std_convolved
   design[:, 4] = linear_drift
   design[:, 5]  = quadratic_drift
   return design
-
 
 
 def regression_fit(data, design): 
