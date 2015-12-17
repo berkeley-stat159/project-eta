@@ -2,15 +2,11 @@ import pandas as pd
 import statsmodels.api as sm
 import pylab as pl
 import numpy as np
+from utils.load_data import *
+import os
 from statsmodels.tools.sm_exceptions import PerfectSeparationError
 
 
-
-
-
-
-print df.heaed()
-#variables to fit 
 
 # logistic regresssion fit function 
 def apply_logistic(df):
@@ -26,29 +22,26 @@ def apply_logistic(df):
 	return result.params 
 
 
-### apply logistic to all 
-
-
 def apply_logistic_all():
-	#create empty frame 
 	params = pd.DataFrame()
-	for root, dirs, files in os.walk("."):
-	    for file in files:
-	    	#find files that are called behavdata
-	        if file.startswith("behavdata"):
-	        	#extract parent directory (aka which subject we are looking at)
-	        	subject = root[2:8]
-	        	df = pd.read_csv(os.path.join(root, file), delim_whitespace=True)
+	for sub in range(1,17):
+		print(sub)
+		for run in range(1,4):
+			print(run)
+			df = get_behav(run,sub)
+			subject_string = "subject " + str(sub)
+			run_string = "run " + str(run)
+			results_coeff = apply_logistic(df)
+			results_coeff['subject'] = subject_string
+			results_coeff['run'] = run_string
+			params = params.append(results_coeff, ignore_index = True)
+	return params
 
-	        	#try-except block that skips behave.txt that raise error
-	        	try:
-	        		results_coeff = apply_logistic(df)
-	        		results_coeff['subject'] = subject
-	        		params = params.append(results_coeff, ignore_index = True)
-	    		except PerfectSeparationError:
-	    			print("error")
-	    			continue
-	return params 
+fit_df = apply_logistic_all()
+
+#output final data frame 
+df.to_csv(r'logistic_fit', header=True, index=None, sep=' ', mode='a')
+
 
 """
                            Logit Regression Results                           
