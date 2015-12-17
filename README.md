@@ -14,6 +14,15 @@ Team Member: Jon Jara, Juan Shishido, Wendy Xu
 In the `data/` directory, you can `make data` to download and extract the data
 files and `make validate` to chech hashes.
 
+In the `code/` directory, there are several options:
+
+* `$ make behavioral_regression` to run logstic regression on the behavorial
+  data for each subject
+* `$ make pda_outliers` for plotting outlier volumes for 2 subjects
+* `$ make pda_smooth` to plot a brain image before and after smoothing
+* `$ make neural_regression` to run the regression for all subjects, returning
+  a gridplot for the beta coefficients
+
 In the `report/` directory, `make` to create the report PDF.
 
 ### What is this?
