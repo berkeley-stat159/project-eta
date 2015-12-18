@@ -5,5 +5,5 @@ matplotlib==1.4.3
 pandas==0.16.2
 nibabel==2.0.1
 scikit_learn==0.15.2
-
-
+statsmodels==0.6.1
+patsy==0.4.1
