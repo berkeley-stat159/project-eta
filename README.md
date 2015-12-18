@@ -22,6 +22,8 @@ In the `code/` directory, there are several options:
 * `$ make pda_smooth` to plot a brain image before and after smoothing
 * `$ make neural_regression` to run the regression for all subjects, returning
   a gridplot for the beta coefficients
+* `$ make mvpa` for our (experimental) MVPA analysis and plots on *all* 16
+  subjects
 
 In the `report/` directory, `make` to create the report PDF.
 
