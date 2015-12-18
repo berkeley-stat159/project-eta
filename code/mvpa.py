@@ -1,8 +1,12 @@
+from __future__ import print_function
+
+import sys
+
 import numpy as np
 import pandas as pd
 import nibabel as nib
+import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
 
 from utils.load_data import *
 from utils.searchlight import sphere, nonzero_indices
@@ -100,9 +104,92 @@ def make_y(yi, yj):
     y = np.append(yi, yj)
     return y
 
-def classification(s, TR, clf, target, rad=1):
+def activation(df):
+    """For getting MVPA accuracy/activation data
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The `results` DataFrame from `mvpa()`
+
+    Returns
+    -------
+    act_data : pd.DataFrame
+        The activation data
+    """
+    baselines = df[['k1_b', 'k2_b', 'k3_b']].values
+    accuracies = df[['k1_a', 'k2_a', 'k3_a']].values
+    mask = accuracies > baselines
+    activation = np.zeros_like(accuracies, dtype=np.float)
+    activation[mask] = accuracies[mask]
+    activation = pd.DataFrame(activation.mean(axis=1), columns=['accuracy'])
+    df = pd.concat([df, activation], axis=1)
+    df_act = df[df.accuracy > 0]
+    df_act.reset_index(drop=True, inplace=True)
+    df_act['accuracy'] = (df_act.k1_a + df_act.k2_a + df_act.k3_a) / 3.0
+    act_data = np.zeros((64, 64, 34))
+    for i in df_act.index:
+        act_data[df_act['x'][i],
+                 df_act['y'][i],
+                 df_act['z'][i]] = df_act['accuracy'][i]
+    return act_data
+
+def mvpa_plot(data, base, s):
+    """For plotting MVPA results
+    16 slices [2, 4, ..., 32] (4x4 grid) for subject `s`
+    
+    Parameters
+    ----------
+    data : np.ndarray
+        MVPA results data (3d)
+    
+    base : np.ndarray
+        First time slice for subject `s` to act as
+        a baseline (background) image (4d)
+        
+    s : int
+        Subject number
+    
+    Returns
+    -------
+    None
+    
+    Notes
+    -----
+    Saves figure to `plots/`
+    """
+    fig, ax = plt.subplots(nrows=4, ncols=4,
+                           figsize=(16, 16),
+                           sharex=True, sharey=True)
+    fig.suptitle('MVPA: Subject '+str(s), fontsize=22)
+    i = 0
+    slices = range(2, 32+1, 2)
+    for r in range(4):
+        for c in range(4):
+            ax[r, c].imshow(base[..., slices[i], 1],
+                            cmap='gray',
+                            interpolation='nearest',
+                            alpha=0.5)
+            im = ax[r, c].imshow(data[...,slices[i]],
+                                 cmap='hot',
+                                 interpolation='nearest',
+                                 alpha=0.5)
+            ax[r, c].set_title('Slice '+str(slices[i]),
+                               fontsize=16)
+            ax[r, c].xaxis.grid(False)
+            ax[r, c].get_xaxis().set_visible(False)
+            ax[r, c].get_yaxis().set_visible(False)
+            i += 1
+    fig.subplots_adjust(right=0.9)
+    cbar = fig.add_axes([0.925, 0.15, 0.025, 0.7])
+    fig.colorbar(im, cax=cbar)
+    cbar.tick_params(labelsize=16)
+    fig.savefig('plots/mvpa_subject{0}.png'.format(s))
+
+def mvpa(s, TR, clf, target, rad=1):
     """Classification using `clf` of 'active' states for subject `s`
     across all runs. Using Leave-Block-Out cross-validation (LBO-CV).
+    Plots using `mvpa_plot`
 
     Parameters
     ----------
@@ -120,9 +207,11 @@ def classification(s, TR, clf, target, rad=1):
 
     Returns
     -------
-    results : pd.DataFrame
-        Voxel index values, baseline (majority class) values, and
-        classification accuracy scores for each run
+    None
+
+    Notes
+    -----
+    Saves plots to `plots/`
     """
     assert target in ['respcat', 'gain_ind'], 'invalid target'
 
@@ -187,9 +276,19 @@ def classification(s, TR, clf, target, rad=1):
                                     'k2_a', 'k3_b', 'k3_a'])
     results = pd.concat([nz, results], axis=1)
 
-    return results
+    # activation data
+    act_data = activation(results)
+
+    # plotting MVPA results
+    mvpa_plot(act_data, data1, s)
 
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+    if len(sys.argv) == 1:
+        import doctest
+        doctest.testmod()
+    elif sys.argv[1] == 'all':
+        from sklearn.linear_model import LogisticRegression
+        clf = LogisticRegression()
+        for i in range(1, 16+1):
+            mvpa(i, 2, clf, 'gain_ind')
